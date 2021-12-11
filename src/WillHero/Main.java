@@ -1,4 +1,4 @@
-package sample;
+package WillHero;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
