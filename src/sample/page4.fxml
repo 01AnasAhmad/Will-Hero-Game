@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="850.0" prefWidth="1200.0" style="-fx-background-color: #bdf6fe;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller2">
+   <children>
+      <ImageView fitHeight="689.0" fitWidth="1200.0" layoutX="86.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../GameAssets/WillHeropg2.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="326.0" layoutY="390.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="154.0" style="-fx-background-color: #FFC0CB;" text="Save Game" textFill="#29d411">
+         <font>
+            <Font name="Ebrima Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="326.0" layoutY="591.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="154.0" style="-fx-background-color: #FFC0CB;" text="Exit To Main Menu" textFill="#17b7db">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="804.0" layoutY="580.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="154.0" style="-fx-background-color: #FFC0CB;" text="Restart" textFill="#123bce">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="796.0" layoutY="390.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="154.0" style="-fx-background-color: #FFC0CB;" text="Continue To Play" textFill="#db0bd4">
+         <font>
+            <Font name="Ebrima Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
