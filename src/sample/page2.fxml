@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="850.0" prefWidth="1200.0" style="-fx-background-image: url('GameAssets/gamepag2.jpg'); -fx-background-color: #bdf6fe;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-   <children>
-      <Button fx:id="nameSubmit" contentDisplay="CENTER" layoutX="571.0" layoutY="379.0" mnemonicParsing="false" onAction="#NameButtonSubmitted" text="OK" textFill="#1dd177">
-         <font>
-            <Font name="System Bold Italic" size="21.0" />
-         </font></Button>
-      <Label fx:id="labelText" contentDisplay="CENTER" layoutX="511.0" layoutY="220.0" prefHeight="85.0" prefWidth="299.0" text="Enter Your User Name">
-         <font>
-            <Font name="Book Antiqua" size="19.0" />
-         </font></Label>
-      <TextField fx:id="userName" layoutX="520.0" layoutY="317.0">
-         <font>
-            <Font name="System Bold Italic" size="12.0" />
-         </font></TextField>
-   </children>
+<AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="850.0" prefWidth="1200.0" style="-fx-background-image: url('GameAssets/gamepag2.jpg'); -fx-background-color: #bdf6fe;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <Button fx:id="nameSubmit" contentDisplay="CENTER" layoutX="571.0" layoutY="379.0" mnemonicParsing="false" onAction="#NameButtonSubmitted" style="-fx-background-color: #000000;" text="OK" textFill="#1dd177">
+      <font>
+         <Font name="System Bold Italic" size="21.0" />
+      </font>
+   </Button>
+   <Label fx:id="labelText" contentDisplay="CENTER" layoutX="496.0" layoutY="231.0" prefHeight="85.0" prefWidth="299.0" text="Enter Your User Name" textFill="#26eb36">
+      <font>
+         <Font name="Ebrima Bold" size="20.0" />
+      </font>
+   </Label>
+   <TextField fx:id="userName" layoutX="520.0" layoutY="317.0" style="-fx-background-color: #000000;">
+      <font>
+         <Font name="System Bold Italic" size="12.0" />
+      </font>
+   </TextField>
 </AnchorPane>

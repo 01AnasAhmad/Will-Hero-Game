@@ -17,19 +17,21 @@ public class Controller {
 
     @FXML
     private Button startGame ;
-    public void ButtonHandler(ActionEvent e) throws IOException {
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page2.fxml")));
-        Stage stage=(Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(parent));
-        stage.show();
-    }
-
     @FXML
     private Label labelText;
     @FXML
     private Button nameSubmit;
     @FXML
     private TextField userName;
+    @FXML
+    private Button exitButton;
+
+    public void ButtonHandler(ActionEvent e) throws IOException {
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page2.fxml")));
+        Stage stage=(Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(parent));
+        stage.show();
+    }
     public void NameButtonSubmitted(ActionEvent e) throws IOException{
         labelText.setText("     Hello ! "+userName.getText()+"\n\n"+"... STARTING A NEW GAME ...");
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page3.fxml")));
@@ -38,9 +40,11 @@ public class Controller {
         stage.show();
     }
     @FXML
-    private Button exitButton;
     public void ExitApplication(ActionEvent e) throws IOException{
-
+        System.out.println("Exiting the Application");
+        Stage stage = (Stage)exitButton.getScene().getWindow();
+        stage.close();
     }
 
 }
+// #FFC0CB for pink

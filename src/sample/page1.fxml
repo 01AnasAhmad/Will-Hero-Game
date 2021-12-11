@@ -16,26 +16,24 @@
    <rowConstraints>
       <RowConstraints />
    </rowConstraints>
-   <children>
-      <AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="850.0" prefWidth="1200.0">
-         <children>
-            <ImageView fitHeight="850.0" fitWidth="1200.0" layoutX="5.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../GameAssets/Game_page.jpg" />
-               </image>
-            </ImageView>
-            <Button fx:id="exitButton" layoutX="938.0" layoutY="711.0" mnemonicParsing="false" onMouseDragReleased="#ExitApplication" prefHeight="58.0" prefWidth="143.0" text="Exit Game" textFill="#cc1212">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Button>
-            <Button fx:id="startGame" layoutX="284.0" layoutY="711.0" mnemonicParsing="false" onAction="#ButtonHandler" prefHeight="58.0" prefWidth="143.0" text="StartGame" textFill="#1297e3">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Button>
-            <Button layoutX="623.0" layoutY="712.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="143.0" text="Load Game" textFill="#c73082">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Button>
-         </children></AnchorPane>
-   </children>
+   <AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="850.0" prefWidth="1200.0">
+      <ImageView fitHeight="850.0" fitWidth="1200.0" layoutX="5.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../GameAssets/Game_page.jpg" />
+      </ImageView>
+      <Button fx:id="exitButton" layoutX="924.0" layoutY="711.0" mnemonicParsing="false" onAction="#ExitApplication" prefHeight="58.0" prefWidth="143.0" style="-fx-background-color: #000000;" text="Exit Game" textFill="#cc1212">
+         <font>
+            <Font name="Ebrima Bold" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="startGame" layoutX="268.0" layoutY="711.0" mnemonicParsing="false" onAction="#ButtonHandler" prefHeight="58.0" prefWidth="143.0" style="-fx-background-color: #000000;" text="Start Game" textFill="#1297e3">
+         <font>
+            <Font name="Ebrima Bold" size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="612.0" layoutY="711.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="143.0" style="-fx-background-color: #000000;" text="Load Game" textFill="#c73082">
+         <font>
+            <Font name="Ebrima Bold" size="20.0" />
+         </font>
+      </Button>
+   </AnchorPane>
 </GridPane>
