@@ -14,11 +14,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game1.fxml")));
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game1.fxml")));
         primaryStage.setTitle(" WILL HERO GAME");
         primaryStage.setScene(new Scene(root,900,500, Color.SKYBLUE)); //root,1100,690, Color.SKYBLUE remember these
-        //Image icon = new Image("C:\\Users\\Anas Ahmad\\Desktop\\intellijCode\\Group_20\\src\\GameAssets\\icon.png");
-        //primaryStage.getIcons().add(icon);
+        Image icon = new Image("C:\\Users\\Anas Ahmad\\Desktop\\intellijCode\\Group_20\\src\\GameAssets\\icon.jpg");
+        primaryStage.getIcons().add(icon);
         //primaryStage.setResizable(false);
         primaryStage.show();
     }
