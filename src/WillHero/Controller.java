@@ -34,7 +34,7 @@ public class Controller {
     }
     public void NameButtonSubmitted(ActionEvent e) throws IOException{
         labelText.setText("     Hello ! "+userName.getText()+"\n\n"+"... STARTING A NEW GAME ...");
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page3.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game1.fxml")));
         Stage stage=(Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(parent));
         stage.show();

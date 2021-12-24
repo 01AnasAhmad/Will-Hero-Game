@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="gameScreenFixed1" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #bdf6fe;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WillHero.GameController">
+   <children>
+      <Group layoutX="300.0" layoutY="187.0" onMouseClicked="#forwardMove1" />
+   </children>
+</AnchorPane>

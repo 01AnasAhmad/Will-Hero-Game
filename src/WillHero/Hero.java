@@ -8,7 +8,8 @@ public class Hero extends GameObjects implements Movable{
     private double current_y_position;
     private double length;
     private int coins;
-    Hero(){
+    Hero(){//When beginning the game from scratch...
+
 
     }
 
