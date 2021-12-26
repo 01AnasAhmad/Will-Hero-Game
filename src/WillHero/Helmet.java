@@ -1,12 +1,22 @@
 package WillHero;
 
 public class Helmet {
-    private String name;
-    private Weapon weapon1;
-    private Weapon weapon2;
-
+    private final String name="Normal Helmet";
+    private Weapon sword;
+    private Weapon knife;
     Helmet(){
 
     }
-
+    public Weapon getSword() {
+        return sword;
+    }
+    public void setSword(Weapon sword) {
+        this.sword = sword;
+    }
+    public Weapon getKnife() {
+        return knife;
+    }
+    public void setKnife(Weapon knife) {
+        this.knife = knife;
+    }
 }

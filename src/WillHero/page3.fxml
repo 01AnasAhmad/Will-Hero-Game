@@ -23,16 +23,16 @@
       <Image url="@../GameAssets/island1.jpg" />
    </ImageView>
    <ImageView fx:id="orc1" fitHeight="47.0" fitWidth="21.0" layoutX="330.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../GameAssets/orc.jpg" />
+      <Image url="@../GameAssets/greenorc.jpg" />
    </ImageView>
    <ImageView fx:id="orc2" fitHeight="47.0" fitWidth="21.0" layoutX="766.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../GameAssets/orc.jpg" />
+      <Image url="@../GameAssets/greenorc.jpg" />
    </ImageView>
    <ImageView fx:id="orc3" fitHeight="47.0" fitWidth="21.0" layoutX="533.0" layoutY="392.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../GameAssets/orc.jpg" />
+      <Image url="@../GameAssets/greenorc.jpg" />
    </ImageView>
    <ImageView fx:id="orc4" fitHeight="47.0" fitWidth="21.0" layoutX="745.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../GameAssets/orc.jpg" />
+      <Image url="@../GameAssets/greenorc.jpg" />
    </ImageView>
    <ImageView fx:id="bossOrc" fitHeight="58.0" fitWidth="48.0" layoutX="986.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../GameAssets/bossOrc.jpg" />

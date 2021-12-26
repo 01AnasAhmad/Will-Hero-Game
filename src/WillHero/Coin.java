@@ -1,4 +1,4 @@
 package WillHero;
 
-public class Coin extends GameObjects{
+public class Coin {//extends GameObjects{
 }
