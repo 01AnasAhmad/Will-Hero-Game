@@ -7,7 +7,7 @@ public class ThrowingKnife extends Weapon{
 
     private final int range=2;
     private int no;//number of knives
-    private Image knife = new Image("C:\\Users\\Anas Ahmad\\Desktop\\intellijCode\\Group_20\\src\\GameAssets\\WeaponKnife.jpg");
+    private Image knife = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\WeaponKnife.jpg");
     private ImageView img= new ImageView(knife);
 
     ThrowingKnife() {

@@ -16,23 +16,23 @@
    <rowConstraints>
       <RowConstraints />
    </rowConstraints>
-   <AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="850.0" prefWidth="1200.0">
-      <ImageView fitHeight="850.0" fitWidth="1200.0" layoutX="5.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+   <AnchorPane maxHeight="850.0" maxWidth="1200.0" prefHeight="490.0" prefWidth="900.0">
+      <ImageView fitHeight="634.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../GameAssets/Game_page.jpg" />
       </ImageView>
-      <Button fx:id="exitButton" layoutX="924.0" layoutY="711.0" mnemonicParsing="false" onAction="#ExitApplication" prefHeight="58.0" prefWidth="143.0" style="-fx-background-color: #000000;" text="Exit Game" textFill="#cc1212">
+      <Button fx:id="exitButton" layoutX="694.0" layoutY="511.0" mnemonicParsing="false" onAction="#ExitApplication" prefHeight="38.0" prefWidth="92.0" style="-fx-background-color: #000000;" text="Exit Game" textFill="#cc1212">
          <font>
-            <Font name="Ebrima Bold" size="20.0" />
+            <Font name="Ebrima Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="startGame" layoutX="268.0" layoutY="711.0" mnemonicParsing="false" onAction="#ButtonHandler" prefHeight="58.0" prefWidth="143.0" style="-fx-background-color: #000000;" text="Start Game" textFill="#1297e3">
+      <Button fx:id="startGame" layoutX="230.0" layoutY="511.0" mnemonicParsing="false" onAction="#ButtonHandler" prefHeight="38.0" prefWidth="92.0" style="-fx-background-color: #000000;" text="Start Game" textFill="#1297e3">
          <font>
-            <Font name="Ebrima Bold" size="20.0" />
+            <Font name="Ebrima Bold" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="612.0" layoutY="711.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="143.0" style="-fx-background-color: #000000;" text="Load Game" textFill="#c73082">
+      <Button layoutX="478.0" layoutY="511.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="92.0" style="-fx-background-color: #000000;" text="Load Game" textFill="#c73082">
          <font>
-            <Font name="Ebrima Bold" size="20.0" />
+            <Font name="Ebrima Bold" size="14.0" />
          </font>
       </Button>
    </AnchorPane>

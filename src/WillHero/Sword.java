@@ -6,7 +6,7 @@ import javafx.scene.transform.Rotate;
 
 public class Sword extends Weapon{
 
-    private Image sword = new Image("C:\\Users\\Anas Ahmad\\Desktop\\intellijCode\\Group_20\\src\\GameAssets\\WeaponSword.jpg");
+    private Image sword = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\WeaponSword.jpg");
     private ImageView img= new ImageView(sword);
 
     Sword() {

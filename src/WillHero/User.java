@@ -1,6 +1,6 @@
 package WillHero;
 
-public class User implements Serializable{
+public class User {
     private String userName;
     private int score;
     private Hero hero;

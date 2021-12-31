@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
@@ -36,7 +37,7 @@ public class Controller {
         labelText.setText("     Hello ! "+userName.getText()+"\n\n"+"... STARTING A NEW GAME ...");
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game1.fxml")));
         Stage stage=(Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(parent));
+        stage.setScene(new Scene(parent,900,490));
         stage.show();
     }
     @FXML

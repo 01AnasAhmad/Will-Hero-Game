@@ -3,7 +3,6 @@ package WillHero;
 public class Location {
     //private double x_center;
     private int number;
-    private Platform platform;
     private Chest chest;
     private Orc orc;
     private boolean has_platform;
