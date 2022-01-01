@@ -1,10 +1,14 @@
 package WillHero;
 
+import javafx.scene.image.ImageView;
+
 public class Location {
     //private double x_center;
     private int number;
     private Chest chest;
     private Orc orc;
+    private ImageView coinhere;
+    private boolean has_coin=false;
     private boolean has_platform;
     private boolean has_chest;
     private boolean has_orc;
@@ -26,12 +30,28 @@ public class Location {
         this.has_orc = has_orc;
     }
 
+    public ImageView getCoinhere() {
+        return coinhere;
+    }
+
+    public void setCoinhere(ImageView coinhere) {
+        this.coinhere = coinhere;
+    }
+
     public Orc getOrc() {
         return orc;
     }
 
     public void setOrc(Orc orc) {
         this.orc = orc;
+    }
+
+    public boolean isHas_coin() {
+        return has_coin;
+    }
+
+    public void setHas_coin(boolean has_coin) {
+        this.has_coin = has_coin;
     }
 
     public Chest getChest() {
@@ -48,5 +68,9 @@ public class Location {
 
     public int getNumber() {
         return number;
+    }
+
+    public boolean isHas_orc() {
+        return has_orc;
     }
 }

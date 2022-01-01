@@ -33,13 +33,9 @@ public class GameController implements Initializable {
     final int[] count = {1};
     Group g1 = new Group();
     Location[] locList = new Location[123];
-    Line line = new Line();
-    boolean flagfall=true;
-    @FXML
-    private Line fallline;
 
-    @FXML
-    private Line rescrnline;
+    boolean flagfall=true;
+    boolean flagfall2=true;
 
     @FXML
     private AnchorPane gameScreenFixed1;
@@ -56,7 +52,15 @@ public class GameController implements Initializable {
         t.setStrokeWidth(1.0);
         t.setFill(Color.WHITE);
         g1.getChildren().add(t);
-
+        Text cointext = new Text("Coins: "+0);
+        cointext.setX(700);
+        cointext.setY(50);
+        cointext.setFont(Font.font ("Arial", FontWeight.BLACK,32));
+        cointext.getStyleClass().add("outline");
+        cointext.setStroke(Color.BLACK);
+        cointext.setStrokeWidth(1.0);
+        cointext.setFill(Color.WHITE);
+        g1.getChildren().add(cointext);
         Button button = new Button("Move Forward");
         button.setLayoutX(385);
         button.setLayoutY(400);
@@ -91,6 +95,7 @@ public class GameController implements Initializable {
                 tt.play();
                 //System.out.println(count[0]+" "+(60+heroImg.getTranslateY()));//+" "+heroImg.yProperty());
                 t.setText("Location: "+(count[0]));
+                System.out.println(locList[count[0]].isHas_chest());
                 //System.out.println(finalFlag); //
                 //System.out.println(willhero.getLocation1().getNumber());
 //                if(locList[count[0]].isHas_chest()){
@@ -98,11 +103,12 @@ public class GameController implements Initializable {
 //                }
 //                willhero.getHelmet().setKnife(knife);
 ////              willhero.setWeapon_flag(2);
-                if(locList[count[0]].isHas_platform()){
-                    System.out.println(1);
+//                if(locList[count[0]].isHas_platform()){
+//                    System.out.println(1);
+//                }
+                if(locList[count[0]].isHas_chest()){
+                    System.out.println(locList[count[0]].getChest().getType());
                 }
-
-
             }
         });
 
@@ -130,75 +136,54 @@ public class GameController implements Initializable {
             translateTransition.setRate(3);
             translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
             translateTransition.play();
-            heroImg.translateYProperty().addListener((obs, old, newValue) -> {
-                if(flagfall && !locList[count[0]].isHas_platform() && heroImg.getBoundsInParent().intersects(fallline.getBoundsInParent())){
-                    flagfall=false;
-                    translateTransition.stop();
+            Line fallLine = new Line(5.0f, 2.5f, 320.0f, 2.5f);
+            fallLine.setOpacity(0.0);
+            fallLine.setTranslateX(275);
+            fallLine.setTranslateY(248);
+            g1.getChildren().add(fallLine);
+            Line rescrnline = new Line(5.0f, 2.5f, 320.0f, 2.5f);
+            rescrnline.setOpacity(0.0);
+            rescrnline.setTranslateX(275);
+            rescrnline.setTranslateY(482);
+            g1.getChildren().add(rescrnline);
+        heroImg.translateYProperty().addListener((obs, old, newValue) -> {
+            if(flagfall && !locList[count[0]].isHas_platform() && heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
+                flagfall=false;
+                translateTransition.stop();
 
+                TranslateTransition fall=new TranslateTransition();
+                fall.setNode(heroImg);
+                fall.setDuration(Duration.millis(800));
+                fall.setByY(250);
+                fall.setCycleCount(1);
+                fall.play();
+                System.out.println("you lost");
+                //System.out.println(heroImg.getBoundsInParent() +" prob "+rescrnline.getBoundsInParent());
+            }
+            if(flagfall2 && heroImg.getBoundsInParent().intersects(rescrnline.getBoundsInParent())) {
+                flagfall2 = false;
+                System.out.println("ok");
+                Stage reliveStage = new Stage();
+                Button exitb = new Button("Exit");
+                exitb.setLayoutX(400);
+                exitb.setLayoutY(300);
+                exitb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                Button resurrectb = new Button("Resurrect");
+                resurrectb.setLayoutX(500);
+                resurrectb.setLayoutY(300);
+                resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                Group relivegroup = new Group(); // Separate group being created every time
 
-                    TranslateTransition fall=new TranslateTransition();
-                    fall.setNode(heroImg);
-                    fall.setDuration(Duration.millis(800));
-                    fall.setByY(250);
-                    fall.setCycleCount(1);
-                    fall.play();
-                    System.out.println("you lost");
-                    if(heroImg.getBoundsInParent().intersects(rescrnline.getBoundsInParent())){
+                relivegroup.getChildren().add(exitb);
+                relivegroup.getChildren().add(resurrectb);
 
-                            Stage stage=new Stage();
-                            Parent p1 = null;
-                            try {
-                                System.out.println("h");
-                                p1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page2.fxml")));
-                                System.out.println("3");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                System.out.println("r");
-                            }
-                            //((Node) e.getSource()).getScene().getWindow();
-                            assert p1 != null;
-                            System.out.println("e");
-                            stage.setScene(new Scene(p1,900,490));
-                            stage.show();
+                Scene reliveScene = new Scene(relivegroup, 900, 490);
 
-                    }
-                    //yahan pe likh
-                    //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("rough.fxml")));
-                    //Parent exitpage = FXMLLoader.load(getClass().getResource("rough.fxml"));
-
-//                    if(heroImg.getTranslateY()<-50){
-//                        Stage stage=new Stage();
-//                        Parent p1 = null;
-//                        try {
-//                            System.out.println("h");
-//                            p1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page2.fxml")));
-//                            System.out.println("3");
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                            System.out.println("r");
-//                        }
-//                        //((Node) e.getSource()).getScene().getWindow();
-//                        assert p1 != null;
-//                        System.out.println("e");
-//                        stage.setScene(new Scene(p1,900,490));
-//                        stage.show();
-//                    }
-                }
-            });
+                reliveStage.setScene(reliveScene);
+                reliveStage.show();
+            }
+        });
             g1.getChildren().add(heroImg);
-      //  }
-      //  else if(willhero.getWeapon_flag()==1){ // Has weapon . . .
-            //Hero Translation on Y axis hero. . .
-//            TranslateTransition translateTransition = new TranslateTransition();
-//            translateTransition.setNode(heroImg);
-//            translateTransition.setAutoReverse(true);
-//            translateTransition.setDuration(Duration.millis(1500));
-//            translateTransition.setByY(-60);
-//            translateTransition.setRate(3);
-//            translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-//            translateTransition.play();
-//            g1.getChildren().add(heroImg);
-//
 //            ImageView swordImg = willhero.getHelmet().getSword().getImg();
 //            swordImg.setFitHeight(10);
 //            swordImg.setFitWidth(25);
@@ -215,20 +200,6 @@ public class GameController implements Initializable {
 //            translateSword.setRate(3);
 //            translateSword.setCycleCount(TranslateTransition.INDEFINITE);
 //            translateSword.play();
-//            g1.getChildren().add(swordImg);
-//        }
-//        else{
-//            //Hero Translation on Y axis . . .
-//            TranslateTransition translateTransition = new TranslateTransition();
-//            translateTransition.setNode(heroImg);
-//            translateTransition.setAutoReverse(true);
-//            translateTransition.setDuration(Duration.millis(1500));
-//            translateTransition.setByY(-60);
-//            translateTransition.setRate(3);
-//            translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-//            translateTransition.play();
-//            g1.getChildren().add(heroImg);
-//
 //            ImageView knifeImg = willhero.getHelmet().getKnife().getImg();
 //            knifeImg.setFitHeight(5);
 //            knifeImg.setFitWidth(25);
@@ -263,7 +234,7 @@ public class GameController implements Initializable {
 
             Location islandloc = new Location(i+1,true);
             locList[i+1] = islandloc;
-            hasPlatform[i+1] = 1;
+            //hasPlatform[i+1] = 1;
             if(flag==1){
                 Image orc = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\greenorc.jpg");
                 ImageView orcImg1 = new ImageView(orc);
@@ -300,7 +271,7 @@ public class GameController implements Initializable {
             islandImg1.setSmooth(true);
             islandImg1.setCache(true);
             g.getChildren().add(islandImg1);
-            hasPlatform[i+1] = 1;
+           // hasPlatform[i+1] = 1;
             Location islandloc1 = new Location(i+1,true);
             locList[i+1] = islandloc1;
             if(flag==0){
@@ -329,26 +300,14 @@ public class GameController implements Initializable {
             }
             if(flagCoin==1){
                 Image coin = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
-                Image coin1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
-                Image coin2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
                 ImageView coinImg = new ImageView(coin);
-                coinImg.setFitHeight(15);
-                coinImg.setFitWidth(15);
+                coinImg.setFitHeight(20);
+                coinImg.setFitWidth(20);
                 coinImg.setX((i+1)*200+100);
-                coinImg.setY(226);
-                ImageView coinImg1 = new ImageView(coin1);
-                coinImg1.setFitHeight(15);
-                coinImg1.setFitWidth(15);
-                coinImg1.setX((i+1)*200+100);
-                coinImg1.setY(200);
-                ImageView coinImg2 = new ImageView(coin2);
-                coinImg2.setFitHeight(15);
-                coinImg2.setFitWidth(15);
-                coinImg2.setX((i+1)*200+100);
-                coinImg2.setY(175);
+                coinImg.setY(210);
+                locList[i+1].setCoinhere(coinImg);
+                locList[i+1].setHas_coin(true);
                 g.getChildren().add(coinImg);
-                g.getChildren().add(coinImg1);
-                g.getChildren().add(coinImg2);
             }
             // Tree1
             Image tree2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\tree1.jpg");
@@ -376,7 +335,7 @@ public class GameController implements Initializable {
             islandImg2.setSmooth(true);
             islandImg2.setCache(true);
             g.getChildren().add(islandImg2);
-            hasPlatform[i+1] = 1;
+            //hasPlatform[i+1] = 1;
             Location islandloc3 = new Location(i+1,true);
             locList[i+1] = islandloc3;
             //Tree2
@@ -392,23 +351,23 @@ public class GameController implements Initializable {
             g.getChildren().add(Imgtree3);
             //Chest
 
-            if(flagChest==2){
+            if(flagChest==1){
                 Image chest1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestClosed.jpg");
                 ImageView Imgchest1 = new ImageView(chest1);
                 Imgchest1.setFitWidth(40);
                 Imgchest1.setFitHeight(50);
                 Imgchest1.setX((i+1) * 200 + 100);
-                Imgchest1.setY(220);
+                Imgchest1.setY(225);
                 Imgchest1.setPreserveRatio(true);
                 Imgchest1.setSmooth(true);
                 Imgchest1.setCache(true);
                 g.getChildren().add(Imgchest1);
-                if(flagChest2==0){
+                if(flagChest2==1){
 
                     Coin_Chest coin_chest = new Coin_Chest(locList[i+1],Imgchest1);
                     locList[i+1].setHas_chest(true);
                     locList[i+1].setChest(coin_chest);
-                    flagChest2 = 1;
+                    flagChest2 = 0;
                 }
                 else{
                     if(flagweapon==0){
@@ -449,7 +408,7 @@ public class GameController implements Initializable {
             g.getChildren().add(islandImg3);
             Location islandloc5 = new Location(i+1,true);
             locList[i+1] = islandloc5;
-            hasPlatform[i+1] = 1;
+            //hasPlatform[i+1] = 1;
             //Tree1
             Image tree1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\tree1.jpg");
             ImageView Imgtree1 = new ImageView(tree1);
@@ -473,7 +432,7 @@ public class GameController implements Initializable {
             islandImg4.setCache(true);
             g.getChildren().add(islandImg4);
 
-            hasPlatform[i+1] = 1;
+            //hasPlatform[i+1] = 1;
             Image tree4 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\tree2.jpg");
             ImageView Imgtree4 = new ImageView(tree4);
             Imgtree4.setFitWidth(30);
@@ -512,26 +471,14 @@ public class GameController implements Initializable {
             }
             if(flagCoin==0){
                 Image coin = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
-                Image coin1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
-                Image coin2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
                 ImageView coinImg = new ImageView(coin);
-                coinImg.setFitHeight(15);
-                coinImg.setFitWidth(15);
+                coinImg.setFitHeight(20);
+                coinImg.setFitWidth(20);
                 coinImg.setX((i+1)*200+100);
-                coinImg.setY(226);
-                ImageView coinImg1 = new ImageView(coin1);
-                coinImg1.setFitHeight(15);
-                coinImg1.setFitWidth(15);
-                coinImg1.setX((i+1)*200+100);
-                coinImg1.setY(200);
-                ImageView coinImg2 = new ImageView(coin2);
-                coinImg2.setFitHeight(15);
-                coinImg2.setFitWidth(15);
-                coinImg2.setX((i+1)*200+100);
-                coinImg2.setY(175);
+                coinImg.setY(210);
+                locList[i+1].setHas_coin(true);
+                locList[i+1].setCoinhere(coinImg);
                 g.getChildren().add(coinImg);
-                g.getChildren().add(coinImg1);
-                g.getChildren().add(coinImg2);
             }
 
             i++;
@@ -545,7 +492,7 @@ public class GameController implements Initializable {
             islandImg5.setSmooth(true);
             islandImg5.setCache(true);
             g.getChildren().add(islandImg5);
-            hasPlatform[i+1] = 1;
+            //hasPlatform[i+1] = 1;
             Location islandloc7 = new Location(i+1,true);
             locList[i+1] = islandloc7;
             if(flag==0){
@@ -574,26 +521,14 @@ public class GameController implements Initializable {
             }
             if(flagCoin==1){
                 Image coin = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
-                Image coin1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
-                Image coin2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
                 ImageView coinImg = new ImageView(coin);
-                coinImg.setFitHeight(15);
-                coinImg.setFitWidth(15);
+                coinImg.setFitHeight(20);
+                coinImg.setFitWidth(20);
                 coinImg.setX((i+1)*200+100);
-                coinImg.setY(226);
-                ImageView coinImg1 = new ImageView(coin1);
-                coinImg1.setFitHeight(15);
-                coinImg1.setFitWidth(15);
-                coinImg1.setX((i+1)*200+100);
-                coinImg1.setY(200);
-                ImageView coinImg2 = new ImageView(coin2);
-                coinImg2.setFitHeight(15);
-                coinImg2.setFitWidth(15);
-                coinImg2.setX((i+1)*200+100);
-                coinImg2.setY(175);
+                coinImg.setY(210);
+                locList[i+1].setHas_coin(true);
+                locList[i+1].setCoinhere(coinImg);
                 g.getChildren().add(coinImg);
-                g.getChildren().add(coinImg1);
-                g.getChildren().add(coinImg2);
             }
             i++;
             Location islandloc8 = new Location(i+1,false);
@@ -606,19 +541,20 @@ public class GameController implements Initializable {
                 flag=0;
             }
             flagCoin=(flagCoin+1)%2;
-            flagChest=(flagChest+1)%3;
+            flagChest=(flagChest+1)%2;
         }
         for(int i=81;i<88;){//Add falling platforms also!!!!!!!!! and coin chest 3 more
             Image coin2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
             ImageView coinImg2 = new ImageView(coin2);
-            coinImg2.setFitHeight(15);
-            coinImg2.setFitWidth(15);
+            coinImg2.setFitHeight(20);
+            coinImg2.setFitWidth(20);
             coinImg2.setX((i+1)*200+100);
-            coinImg2.setY(175);
-            g.getChildren().add(coinImg2);//Add falling platform...
-
+            coinImg2.setY(210);
             Location islandloc = new Location(i+1,true);
             locList[i+1] = islandloc;
+            locList[i+1].setCoinhere(coinImg2);
+            locList[i+1].setHas_coin(true);
+            g.getChildren().add(coinImg2);//Add falling platform...
             i++;
         }
         for(int i=88;i<99;){//Add 2 more chests
@@ -632,7 +568,9 @@ public class GameController implements Initializable {
             islandImg.setSmooth(true);
             islandImg.setCache(true);
             g.getChildren().add(islandImg);
-            hasPlatform[i+1] = 1;
+            Location islandloc = new Location(i+1,true);
+            locList[i+1] = islandloc;
+            //hasPlatform[i+1] = 1;
             if(i==90){
                 Image chest = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestClosed.jpg");
                 ImageView Imgchest = new ImageView(chest);
@@ -643,6 +581,9 @@ public class GameController implements Initializable {
                 Imgchest.setPreserveRatio(true);
                 Imgchest.setSmooth(true);
                 Imgchest.setCache(true);
+                Coin_Chest coin_chest = new Coin_Chest(locList[i+1],Imgchest);
+                locList[i+1].setHas_chest(true);
+                locList[i+1].setChest(coin_chest);
                 g.getChildren().add(Imgchest);
             }
             if(i==95){
@@ -655,24 +596,27 @@ public class GameController implements Initializable {
                 Imgchest.setPreserveRatio(true);
                 Imgchest.setSmooth(true);
                 Imgchest.setCache(true);
+                Coin_Chest coin_chest = new Coin_Chest(locList[i+1],Imgchest);
+                locList[i+1].setHas_chest(true);
+                locList[i+1].setChest(coin_chest);
                 g.getChildren().add(Imgchest);
             }
             //Confirm it here (i+1) ??
-            Location islandloc = new Location(i+1,true);
-            locList[i+1] = islandloc;
-            hasPlatform[i+1] = 1;
+            //hasPlatform[i+1] = 1;
             i++;
         }
         for(int i = 99;i<107;){//Falling platform to be added between this range . . .
             Image coin2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\Coin.jpg");
             ImageView coinImg2 = new ImageView(coin2);
-            coinImg2.setFitHeight(15);
-            coinImg2.setFitWidth(15);
+            coinImg2.setFitHeight(20);
+            coinImg2.setFitWidth(20);
             coinImg2.setX((i+1)*200+100);
-            coinImg2.setY(175);
+            coinImg2.setY(210);
             g.getChildren().add(coinImg2);
             Location islandloc = new Location(i+1,true);
             locList[i+1] = islandloc;
+            locList[i+1].setHas_coin(true);
+            locList[i+1].setCoinhere(coinImg2);
             i++;
         }
 
@@ -697,7 +641,7 @@ public class GameController implements Initializable {
             Imgtree2.setSmooth(true);
             Imgtree2.setCache(true);
             g.getChildren().add(Imgtree2);
-            hasPlatform[j+1] = 1;
+            //hasPlatform[j+1] = 1;
             Location islandloc = new Location(j+1,true);
             locList[j+1] = islandloc;
             j++;
@@ -713,7 +657,7 @@ public class GameController implements Initializable {
             islandImg.setSmooth(true);
             islandImg.setCache(true);
             g.getChildren().add(islandImg);
-            hasPlatform[k+1] = 1;
+            //hasPlatform[k+1] = 1;
             Location islandloc = new Location(k+1,true);
             locList[k+1] = islandloc;
             k++;
