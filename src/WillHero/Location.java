@@ -2,7 +2,9 @@ package WillHero;
 
 import javafx.scene.image.ImageView;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable{
     //private double x_center;
     private int number;
     private Chest chest;

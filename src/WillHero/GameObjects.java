@@ -2,7 +2,9 @@ package WillHero;
 
 import javafx.scene.image.ImageView;
 
-public abstract class GameObjects {
+import java.io.Serializable;
+
+public abstract class GameObjects implements Serializable {
     //private int unique_id;
     private Location location1;
     //private double x_coordinate;

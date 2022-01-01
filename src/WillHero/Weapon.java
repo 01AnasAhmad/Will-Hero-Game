@@ -2,7 +2,9 @@ package WillHero;
 
 import javafx.scene.image.ImageView;
 
-public class Weapon {//extends GameObjects{
+import java.io.Serializable;
+
+public class Weapon implements Serializable {//extends GameObjects{
     private int damage_value;
     private int level;
     private String wname;

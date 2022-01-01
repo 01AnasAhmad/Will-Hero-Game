@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game1.fxml")));
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page1.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game1.fxml")));
         primaryStage.setTitle(" WILL HERO GAME");
         primaryStage.setScene(new Scene(root,900,490, Color.SKYBLUE)); //root,1100,690, Color.SKYBLUE remember these
         primaryStage.setResizable(false);

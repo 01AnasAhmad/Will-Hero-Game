@@ -33,10 +33,15 @@ public class GameController implements Initializable {
     final int[] count = {1};
     Group g1 = new Group();
     Location[] locList = new Location[123];
+    Location heroloc = new Location(0,true);
 
+    Hero willhero = new Hero(heroloc,heroImg);
+
+    Helmet helmet = new Helmet();
     boolean flagfall=true;
     boolean flagfall2=true;
-
+    boolean flagcoinintersect=false;
+    int coincount=0;
     @FXML
     private AnchorPane gameScreenFixed1;
 
@@ -65,23 +70,23 @@ public class GameController implements Initializable {
         button.setLayoutX(385);
         button.setLayoutY(400);
         button.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,new BorderWidths(4))));
-
-
-
-        int [] hasPlatform = new int[123];
-
-        Location heroloc = new Location(0,true);
-
-        Hero willhero = new Hero(heroloc,heroImg);
-
-        Helmet helmet = new Helmet();
+        //int [] hasPlatform = new int[123];
+        Button resurrectb = new Button("Resurrect");
+        resurrectb.setLayoutX(500);
+        resurrectb.setLayoutY(300);
+        resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
 
         int flag = 0 ; //
         int flagCoin = 0;
         int flagChest = 0;
         int flagChest2 = 0;
         int flagweapon = 0;
-
+        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                
+            }
+        });
         button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -95,7 +100,7 @@ public class GameController implements Initializable {
                 tt.play();
                 //System.out.println(count[0]+" "+(60+heroImg.getTranslateY()));//+" "+heroImg.yProperty());
                 t.setText("Location: "+(count[0]));
-                System.out.println(locList[count[0]].isHas_chest());
+                //System.out.println(locList[count[0]].isHas_chest());
                 //System.out.println(finalFlag); //
                 //System.out.println(willhero.getLocation1().getNumber());
 //                if(locList[count[0]].isHas_chest()){
@@ -106,9 +111,17 @@ public class GameController implements Initializable {
 //                if(locList[count[0]].isHas_platform()){
 //                    System.out.println(1);
 //                }
-                if(locList[count[0]].isHas_chest()){
-                    System.out.println(locList[count[0]].getChest().getType());
+//                if(locList[count[0]].isHas_chest()){
+//                    System.out.println(locList[count[0]].getChest().getType());
+//                }
+                if(locList[count[0]].isHas_coin()){
+                    flagcoinintersect=true;
                 }
+                else{
+                    flagcoinintersect=false;
+                }
+
+                System.out.println(flagcoinintersect);
             }
         });
 
@@ -168,10 +181,10 @@ public class GameController implements Initializable {
                 exitb.setLayoutX(400);
                 exitb.setLayoutY(300);
                 exitb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
-                Button resurrectb = new Button("Resurrect");
-                resurrectb.setLayoutX(500);
-                resurrectb.setLayoutY(300);
-                resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+//                Button resurrectb = new Button("Resurrect");
+//                resurrectb.setLayoutX(500);
+//                resurrectb.setLayoutY(300);
+//                resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
                 Group relivegroup = new Group(); // Separate group being created every time
 
                 relivegroup.getChildren().add(exitb);
@@ -181,6 +194,16 @@ public class GameController implements Initializable {
 
                 reliveStage.setScene(reliveScene);
                 reliveStage.show();
+            }
+//            if(locList[count[0]].isHas_coin()){
+//                System.out.println(heroImg.getBoundsInParent().intersects(locList[count[0]].getCoinhere().getBoundsInParent()));
+//            }
+
+            if(flagcoinintersect && locList[count[0]].isHas_coin() ){
+                if(willhero.getCurrent_y_position()<230 && willhero.getCurrent_y_position()>210){
+                coincount++;
+                cointext.setText("Coins: "+coincount);
+                flagcoinintersect=false;}
             }
         });
             g1.getChildren().add(heroImg);

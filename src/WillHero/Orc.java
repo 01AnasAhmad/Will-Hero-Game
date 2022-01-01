@@ -2,7 +2,9 @@ package WillHero;
 
 import javafx.scene.image.ImageView;
 
-public class Orc extends GameObjects{
+import java.io.Serializable;
+
+public class Orc extends GameObjects implements Serializable {
     private int power;
     private final int coin_on_defeat=2;
     //private Platform platform;

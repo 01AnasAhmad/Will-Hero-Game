@@ -1,6 +1,8 @@
 package WillHero;
 
-public class Helmet {
+import java.io.Serializable;
+
+public class Helmet implements Serializable{
     private final String name="Normal Helmet";
     private Weapon sword;
     private Weapon knife;

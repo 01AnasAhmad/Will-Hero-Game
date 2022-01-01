@@ -2,7 +2,9 @@ package WillHero;
 
 import javafx.scene.image.ImageView;
 
-public class Chest extends GameObjects{
+import java.io.Serializable;
+
+public class Chest extends GameObjects implements Serializable {
     private final double height = 50;
     private Location location;
     private ImageView imgChest;
