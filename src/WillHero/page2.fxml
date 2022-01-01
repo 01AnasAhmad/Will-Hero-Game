@@ -7,17 +7,17 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="490" maxWidth="900.0" prefHeight="490.0" prefWidth="900.0" style="-fx-background-image: url('GameAssets/gamepag2.jpg'); -fx-background-color: #bdf6fe;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WillHero.Controller">
-   <Button fx:id="nameSubmit" contentDisplay="CENTER" layoutX="421.0" layoutY="307.0" mnemonicParsing="false" onAction="#NameButtonSubmitted" style="-fx-background-color: #000000;" text="OK" textFill="#1dd177">
+   <Button fx:id="nameSubmit" contentDisplay="CENTER" layoutX="421.0" layoutY="344.0" mnemonicParsing="false" onAction="#NameButtonSubmitted" style="-fx-background-color: #000000;" text="OK" textFill="#1dd177">
       <font>
          <Font name="System Bold Italic" size="21.0" />
       </font>
    </Button>
-   <Label fx:id="labelText" contentDisplay="CENTER" layoutX="344.0" layoutY="200.0" prefHeight="45.0" prefWidth="212.0" text="Enter Your User Name" textFill="#26eb36">
+   <Label fx:id="labelText" contentDisplay="CENTER" layoutX="344.0" layoutY="245.0" prefHeight="45.0" prefWidth="212.0" text="Enter Your User Name">
       <font>
          <Font name="Ebrima Bold" size="20.0" />
       </font>
    </Label>
-   <TextField fx:id="userName" layoutX="370.0" layoutY="260.0">
+   <TextField fx:id="userName" layoutX="370.0" layoutY="303.0">
       <font>
          <Font name="System Bold Italic" size="12.0" />
       </font>

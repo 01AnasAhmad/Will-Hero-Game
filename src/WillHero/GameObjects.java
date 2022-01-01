@@ -14,6 +14,9 @@ public abstract class GameObjects implements Serializable {
         this.objectImg = img1;
         //this.x_coordinate = (loc1+1)*200+100;
     }
+    public void setObjectImg(ImageView objectImg) {
+        this.objectImg = objectImg;
+    }
 
     public Location getLocation1() {
         return location1;

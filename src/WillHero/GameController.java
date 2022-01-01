@@ -24,9 +24,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
-
-    //System.out.println(locList[count[0]].isHas_platform()); // to get the has platform ...
-
     Group g = new Group(); // Global
     Image hero = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\hero.jpg");
     ImageView heroImg = new ImageView(hero);
@@ -41,7 +38,7 @@ public class GameController implements Initializable {
     boolean flagfall=true;
     boolean flagfall2=true;
     boolean flagcoinintersect=false;
-    int coincount=0;
+    boolean flagchestintersect=false;
     @FXML
     private AnchorPane gameScreenFixed1;
 
@@ -59,21 +56,86 @@ public class GameController implements Initializable {
         g1.getChildren().add(t);
         Text cointext = new Text("Coins: "+0);
         cointext.setX(700);
-        cointext.setY(50);
+        cointext.setY(450);
         cointext.setFont(Font.font ("Arial", FontWeight.BLACK,32));
         cointext.getStyleClass().add("outline");
         cointext.setStroke(Color.BLACK);
         cointext.setStrokeWidth(1.0);
         cointext.setFill(Color.WHITE);
         g1.getChildren().add(cointext);
+        Button ingamemenub = new Button();
+        Image menuimg = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\settings.jpg");
+        ImageView inmenu = new ImageView(menuimg);
+        ingamemenub.setGraphic(inmenu);
+        ingamemenub.setLayoutX(790);
+        ingamemenub.setLayoutY(30);
+        ingamemenub.setMinHeight(50);
+        ingamemenub.setMinWidth(50);
+        inmenu.setFitHeight(50);
+        inmenu.setFitWidth(60);
+        g1.getChildren().add(ingamemenub);
+        ingamemenub.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage s = new Stage();
+                Group g2 = new Group();
+
+                Button continueb = new Button();
+                Image img1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\continue.jpg");
+                ImageView i1 = new ImageView(img1);
+                continueb.setGraphic(i1);
+                i1.setFitWidth(50);
+                i1.setFitHeight(50);
+                continueb.setLayoutX(20);
+                continueb.setLayoutY(10);
+                continueb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                continueb.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        s.close();
+                    }
+                });
+                g2.getChildren().add(continueb);
+                Button saveb = new Button();
+                Image img2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\savenexit.jpg");
+                ImageView i2 = new ImageView(img2);
+                saveb.setGraphic(i2);
+                i2.setFitWidth(50);
+                i2.setFitHeight(50);
+                saveb.setLayoutX(120);
+                saveb.setLayoutY(10);
+                g2.getChildren().add(saveb);
+
+                saveb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                Button soundb = new Button();
+                Image img3 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\sound.jpg");
+                ImageView i3 = new ImageView(img3);
+                soundb.setGraphic(i3);
+                i3.setFitWidth(50);
+                i3.setFitHeight(50);
+                soundb.setLayoutX(230);
+                soundb.setLayoutY(10);
+                soundb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                g2.getChildren().add(soundb);
+                Scene s2 = new Scene(g2,330,90);
+                s.setScene(s2);
+                s.setResizable(false);
+                s2.setFill(Color.SKYBLUE);
+                Image icon = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg");
+                s.getIcons().add(icon);
+
+                s.setTitle("Pause Menu");
+                s.show();
+            }
+        });
         Button button = new Button("Move Forward");
         button.setLayoutX(385);
         button.setLayoutY(400);
         button.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,new BorderWidths(4))));
         //int [] hasPlatform = new int[123];
         Button resurrectb = new Button("Resurrect");
-        resurrectb.setLayoutX(500);
-        resurrectb.setLayoutY(300);
+        resurrectb.setLayoutX(190);
+        resurrectb.setLayoutY(40);
         resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
 
         int flag = 0 ; //
@@ -84,7 +146,7 @@ public class GameController implements Initializable {
         resurrectb.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                
+
             }
         });
         button.setOnAction(new EventHandler<>() {
@@ -98,30 +160,21 @@ public class GameController implements Initializable {
                 count[0]++;
                 willhero.setLocation1(locList[count[0]]);
                 tt.play();
-                //System.out.println(count[0]+" "+(60+heroImg.getTranslateY()));//+" "+heroImg.yProperty());
-                t.setText("Location: "+(count[0]));
-                //System.out.println(locList[count[0]].isHas_chest());
-                //System.out.println(finalFlag); //
-                //System.out.println(willhero.getLocation1().getNumber());
-//                if(locList[count[0]].isHas_chest()){
-//                    System.out.println(1);
-//                }
-//                willhero.getHelmet().setKnife(knife);
-////              willhero.setWeapon_flag(2);
-//                if(locList[count[0]].isHas_platform()){
-//                    System.out.println(1);
-//                }
-//                if(locList[count[0]].isHas_chest()){
-//                    System.out.println(locList[count[0]].getChest().getType());
-//                }
-                if(locList[count[0]].isHas_coin()){
+
+                t.setText("Location: "+(willhero.getLocation1().getNumber()));
+
+                if(willhero.getLocation1().isHas_coin()){
                     flagcoinintersect=true;
                 }
                 else{
                     flagcoinintersect=false;
                 }
-
-                System.out.println(flagcoinintersect);
+                if(willhero.getLocation1().isHas_chest()){
+                    flagchestintersect=true;
+                }
+                else{
+                    flagchestintersect=false;
+                }
             }
         });
 
@@ -160,7 +213,7 @@ public class GameController implements Initializable {
             rescrnline.setTranslateY(482);
             g1.getChildren().add(rescrnline);
         heroImg.translateYProperty().addListener((obs, old, newValue) -> {
-            if(flagfall && !locList[count[0]].isHas_platform() && heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
+            if(flagfall && !willhero.getLocation1().isHas_platform() && heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                 flagfall=false;
                 translateTransition.stop();
 
@@ -178,8 +231,8 @@ public class GameController implements Initializable {
                 System.out.println("ok");
                 Stage reliveStage = new Stage();
                 Button exitb = new Button("Exit");
-                exitb.setLayoutX(400);
-                exitb.setLayoutY(300);
+                exitb.setLayoutX(50);
+                exitb.setLayoutY(40);
                 exitb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
 //                Button resurrectb = new Button("Resurrect");
 //                resurrectb.setLayoutX(500);
@@ -189,21 +242,35 @@ public class GameController implements Initializable {
 
                 relivegroup.getChildren().add(exitb);
                 relivegroup.getChildren().add(resurrectb);
-
-                Scene reliveScene = new Scene(relivegroup, 900, 490);
-
+                Scene reliveScene = new Scene(relivegroup, 300, 100);
+                reliveScene.setFill(Color.SKYBLUE);
                 reliveStage.setScene(reliveScene);
+                reliveStage.setTitle("You Lose");
                 reliveStage.show();
             }
-//            if(locList[count[0]].isHas_coin()){
-//                System.out.println(heroImg.getBoundsInParent().intersects(locList[count[0]].getCoinhere().getBoundsInParent()));
-//            }
-
-            if(flagcoinintersect && locList[count[0]].isHas_coin() ){
-                if(willhero.getCurrent_y_position()<230 && willhero.getCurrent_y_position()>210){
-                coincount++;
-                cointext.setText("Coins: "+coincount);
-                flagcoinintersect=false;}
+            if(flagcoinintersect && willhero.getLocation1().isHas_coin() ){
+                if(heroImg.getY()<230 && heroImg.getY()>210){
+                    willhero.increasecoins(1);
+                    cointext.setText("Coins: "+willhero.getCoins());
+                    willhero.getLocation1().getCoinhere().setOpacity(0.0);
+                    flagcoinintersect=false;}
+            }
+            if(flagchestintersect && willhero.getLocation1().isHas_chest()){
+                if(heroImg.getY()>200 && heroImg.getY()<226){
+                    willhero.increasecoins(10);
+                    cointext.setText("Coins: "+willhero.getCoins());
+                    willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
+                    Image chest1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestOpen.jpg");
+                    ImageView Imgchest1 = new ImageView(chest1);
+                    Imgchest1.setFitWidth(40);
+                    Imgchest1.setFitHeight(50);
+                    Imgchest1.setX((willhero.getLocation1().getNumber()) * 200 + 100);
+                    Imgchest1.setY(225);
+                    Imgchest1.setPreserveRatio(true);
+                    Imgchest1.setSmooth(true);
+                    Imgchest1.setCache(true);
+                    g.getChildren().add(Imgchest1);
+                    flagchestintersect=false;}
             }
         });
             g1.getChildren().add(heroImg);
