@@ -386,45 +386,16 @@ public class GameController implements Initializable {
             if(willhero.getLocation1().isHas_falling_platform()){
                 if(heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                     willhero.getLocation1().setHas_falling_platform(false);
+                    TranslateTransition tfp=new TranslateTransition();
+                    tfp.setNode(willhero.getLocation1().getFallingplatform());
+                    tfp.setDuration(Duration.millis(800));
+                    tfp.setByY(250);
+                    tfp.setCycleCount(1);
+                    tfp.play();
                 }
             }
         });
             g1.getChildren().add(heroImg);
-//            ImageView swordImg = willhero.getHelmet().getSword().getImg();
-//            swordImg.setFitHeight(10);
-//            swordImg.setFitWidth(25);
-//            swordImg.setX(320);
-//            swordImg.setY(200);
-//            swordImg.setPreserveRatio(true);
-//            swordImg.setSmooth(true);
-//            swordImg.setCache(true);
-//            TranslateTransition translateSword = new TranslateTransition();
-//            translateSword.setNode(swordImg);
-//            translateSword.setAutoReverse(true);
-//            translateSword.setDuration(Duration.millis(1500));
-//            translateSword.setByY(-60);
-//            translateSword.setRate(3);
-//            translateSword.setCycleCount(TranslateTransition.INDEFINITE);
-//            translateSword.play();
-//            ImageView knifeImg = willhero.getHelmet().getKnife().getImg();
-//            knifeImg.setFitHeight(5);
-//            knifeImg.setFitWidth(25);
-//            knifeImg.setX(320);
-//            knifeImg.setY(200);
-//            knifeImg.setPreserveRatio(true);
-//            knifeImg.setSmooth(true);
-//            knifeImg.setCache(true);
-//            TranslateTransition translateSword = new TranslateTransition();
-//            translateSword.setNode(knifeImg);
-//            translateSword.setAutoReverse(true);
-//            translateSword.setDuration(Duration.millis(1500));
-//            translateSword.setByY(-60);
-//            translateSword.setRate(3);
-//            translateSword.setCycleCount(TranslateTransition.INDEFINITE);
-//            translateSword.play();
-//            g1.getChildren().add(knifeImg);
-//        }
-
         // Normal with island1 image Platforms
         for (int i = 0; i < 81;) {   // Creating Islands...
             Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
@@ -758,9 +729,17 @@ public class GameController implements Initializable {
             coinImg2.setY(210);
             Location islandloc = new Location(i+1,false);
             islandloc.setHas_falling_platform(true);
+            Image platfall=new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\fallPlat.jpg");
+            ImageView fallplat=new ImageView(platfall);
+            fallplat.setX(200*(i+1));
+            fallplat.setY(260);
+            fallplat.setFitWidth(200);
+            fallplat.setFitHeight(10);
+            islandloc.setFallingplatform(fallplat);
             locList[i+1] = islandloc;
             locList[i+1].setCoinhere(coinImg2);
             locList[i+1].setHas_coin(true);
+            g.getChildren().add(fallplat);
             g.getChildren().add(coinImg2);//Add falling platform...
             i++;
         }
@@ -822,9 +801,17 @@ public class GameController implements Initializable {
             g.getChildren().add(coinImg2);
             Location islandloc = new Location(i+1,false);
             islandloc.setHas_falling_platform(true);
+            Image platfall=new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\fallPlat.jpg");
+            ImageView fallplat=new ImageView(platfall);
+            fallplat.setX(200*(i+1));
+            fallplat.setY(260);
+            fallplat.setFitWidth(200);
+            fallplat.setFitHeight(10);
+            islandloc.setFallingplatform(fallplat);
             locList[i+1] = islandloc;
             locList[i+1].setHas_coin(true);
             locList[i+1].setCoinhere(coinImg2);
+            g.getChildren().add(fallplat);
             i++;
         }
 

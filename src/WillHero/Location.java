@@ -10,6 +10,7 @@ public class Location implements Serializable{
     private Chest chest;
     private Orc orc;
     private transient ImageView coinhere;
+    private transient ImageView fallingplatform;
     private boolean has_coin=false;
     private boolean has_platform;
     private boolean has_chest;
@@ -20,6 +21,13 @@ public class Location implements Serializable{
         this.has_platform = has_platform;
     }
 
+    public void setFallingplatform(ImageView w){
+        this.fallingplatform=w;
+    }
+
+    public ImageView getFallingplatform(){
+        return this.fallingplatform;
+    }
     public boolean isHas_falling_platform() {
         return has_falling_platform;
     }
