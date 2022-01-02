@@ -8,7 +8,7 @@ public abstract class GameObjects implements Serializable {
     //private int unique_id;
     private Location location1;
     //private double x_coordinate;
-    private ImageView objectImg;
+    private transient ImageView objectImg;
     GameObjects(Location loc1,ImageView img1){
         this.location1 = loc1;
         this.objectImg = img1;

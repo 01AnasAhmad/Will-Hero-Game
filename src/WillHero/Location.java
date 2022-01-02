@@ -9,15 +9,23 @@ public class Location implements Serializable{
     private int number;
     private Chest chest;
     private Orc orc;
-    private ImageView coinhere;
+    private transient ImageView coinhere;
     private boolean has_coin=false;
     private boolean has_platform;
     private boolean has_chest;
     private boolean has_orc;
-
+    private boolean has_falling_platform;
     Location(int loc,boolean has_platform){ //For island
         this.number = loc;
         this.has_platform = has_platform;
+    }
+
+    public boolean isHas_falling_platform() {
+        return has_falling_platform;
+    }
+
+    public void setHas_falling_platform(boolean has_falling_platform) {
+        this.has_falling_platform = has_falling_platform;
     }
 
     public boolean isHas_platform() {

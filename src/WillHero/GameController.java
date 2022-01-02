@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 import java.util.ResourceBundle;
@@ -33,7 +33,83 @@ public class GameController implements Initializable {
     Location heroloc = new Location(0,true);
 
     Hero willhero = new Hero(heroloc,heroImg);
+    public void save() throws IOException{
+        ObjectOutputStream out = null;
+        ObjectOutputStream locout = null;
+        try {
+            out = new ObjectOutputStream (new FileOutputStream("out.txt"));
+            out.writeObject(willhero);
+            locout = new ObjectOutputStream(new FileOutputStream("locout.txt"));
+            locout.writeObject(locList);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            assert out != null;
+            out.close();
+            assert locout != null;
+            locout.close();
+        }
+    }
+    public void reload() throws IOException,ClassNotFoundException{
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream("out.txt"));
+            Hero h1 = (Hero)in.readObject();
+            willhero=h1;
+            System.out.println(h1.getLocation1().getNumber());
+            int a = h1.getLocation1().getNumber();
+            int b = willhero.getLocation1().getNumber();
+            TranslateTransition tt = new TranslateTransition();
+            tt.setNode(g);
+            tt.setByX((b-a)*200);
+            tt.setDuration(Duration.millis(50));
+            tt.play();
 
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());}
+        finally {
+            assert in != null;
+            in.close();
+
+        }
+    }
+    public void saveloc() throws IOException{
+        ObjectOutputStream locout = null;
+        try{
+            locout = new ObjectOutputStream(new FileOutputStream("locout.txt"));
+            locout.writeObject(locList);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            assert locout != null;
+            locout.close();
+        }
+    }
+    public void reloadloc() throws IOException,ClassNotFoundException{
+        ObjectInputStream locin = null;
+        try{
+            locin = new ObjectInputStream (new FileInputStream("locout.txt"));
+            Location[] loclist1 = (Location[]) locin.readObject();
+
+            for (Location location : loclist1) {
+                System.out.println("hello");
+                System.out.println(location.getNumber());
+                System.out.println("Okkkkkk");
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            assert locin != null;
+            locin.close();
+        }
+    }
     Helmet helmet = new Helmet();
     boolean flagfall=true;
     boolean flagfall2=true;
@@ -44,6 +120,39 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Button b = new Button("save");
+        b.setLayoutX(200);
+        b.setLayoutY(400);
+        b.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    save();
+                    System.out.println("save Complete");
+                    //saveloc();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        g1.getChildren().add(b);
+        Button b1 = new Button("load");
+        b1.setLayoutX(300);
+        b1.setLayoutY(400);
+        b1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    reload();
+                    System.out.println("reload complete");
+                    reloadloc();
+                    System.out.println("reloadloc complete");
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        g1.getChildren().add(b1);
 
         Text t = new Text("Location: "+1);
         t.setX(50);
@@ -175,6 +284,7 @@ public class GameController implements Initializable {
                 else{
                     flagchestintersect=false;
                 }
+                System.out.println(willhero.getLocation1().getNumber());
             }
         });
 
@@ -212,8 +322,9 @@ public class GameController implements Initializable {
             rescrnline.setTranslateX(275);
             rescrnline.setTranslateY(482);
             g1.getChildren().add(rescrnline);
+//
         heroImg.translateYProperty().addListener((obs, old, newValue) -> {
-            if(flagfall && !willhero.getLocation1().isHas_platform() && heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
+            if(flagfall && (!willhero.getLocation1().isHas_platform() && !willhero.getLocation1().isHas_falling_platform()) && heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                 flagfall=false;
                 translateTransition.stop();
 
@@ -271,6 +382,11 @@ public class GameController implements Initializable {
                     Imgchest1.setCache(true);
                     g.getChildren().add(Imgchest1);
                     flagchestintersect=false;}
+            }
+            if(willhero.getLocation1().isHas_falling_platform()){
+                if(heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
+                    willhero.getLocation1().setHas_falling_platform(false);
+                }
             }
         });
             g1.getChildren().add(heroImg);
@@ -640,7 +756,8 @@ public class GameController implements Initializable {
             coinImg2.setFitWidth(20);
             coinImg2.setX((i+1)*200+100);
             coinImg2.setY(210);
-            Location islandloc = new Location(i+1,true);
+            Location islandloc = new Location(i+1,false);
+            islandloc.setHas_falling_platform(true);
             locList[i+1] = islandloc;
             locList[i+1].setCoinhere(coinImg2);
             locList[i+1].setHas_coin(true);
@@ -703,7 +820,8 @@ public class GameController implements Initializable {
             coinImg2.setX((i+1)*200+100);
             coinImg2.setY(210);
             g.getChildren().add(coinImg2);
-            Location islandloc = new Location(i+1,true);
+            Location islandloc = new Location(i+1,false);
+            islandloc.setHas_falling_platform(true);
             locList[i+1] = islandloc;
             locList[i+1].setHas_coin(true);
             locList[i+1].setCoinhere(coinImg2);

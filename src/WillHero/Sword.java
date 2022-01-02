@@ -4,10 +4,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Rotate;
 
-public class Sword extends Weapon{
+import java.io.Serializable;
 
-    private Image sword = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\WeaponSword.jpg");
-    private ImageView img= new ImageView(sword);
+public class Sword extends Weapon implements Serializable {
+
+    private transient Image sword = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\WeaponSword.jpg");
+    private transient ImageView img= new ImageView(sword);
 
     Sword() {
         setDamage_value(2);

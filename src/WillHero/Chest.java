@@ -5,9 +5,8 @@ import javafx.scene.image.ImageView;
 import java.io.Serializable;
 
 public class Chest extends GameObjects implements Serializable {
-    private final double height = 50;
+    private final double height = 25;
     private Location location;
-    private ImageView imgChest;
     private String type;
     Chest(Location loc, ImageView imgChest){
         super(loc,imgChest);

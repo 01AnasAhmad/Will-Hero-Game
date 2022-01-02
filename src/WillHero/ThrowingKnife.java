@@ -3,12 +3,14 @@ package WillHero;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ThrowingKnife extends Weapon{
+import java.io.Serializable;
+
+public class ThrowingKnife extends Weapon implements Serializable {
 
     private final int range=2;
     private int no;//number of knives
-    private Image knife = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\WeaponKnife.jpg");
-    private ImageView img= new ImageView(knife);
+    private transient Image knife = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\WeaponKnife.jpg");
+    private transient ImageView img= new ImageView(knife);
 
     ThrowingKnife() {
         this.no = 1;
