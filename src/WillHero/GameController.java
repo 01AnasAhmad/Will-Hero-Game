@@ -330,7 +330,7 @@ public class GameController implements Initializable {
                     flagchestintersect=false;
                 }
                 System.out.println(willhero.getLocation1().getNumber());
-                if(willhero.getLocation1().isHas_orc()){
+                if(willhero.getLocation1().isHas_orc() ){
                     double heroup=willhero.getObjectImg().getBoundsInParent().getMaxY();         // Y MAX hero
                     double herodown=willhero.getObjectImg().getBoundsInParent().getMinY();       // Y MIN hero
                     double orcup=willhero.getLocation1().getOrc().getObjectImg().getBoundsInParent().getMaxY();  // Y MAX orc
@@ -344,7 +344,7 @@ public class GameController implements Initializable {
                         t1.setNode(orctemp);
                         t1.setDuration(Duration.millis(800));
                         t1.setByX(200);
-                        t1.setRate(2);
+                        t1.setRate(4);
                         t1.play();
                         orcobj.setLocation1(locList[xte+1]);
                         locList[xte].setOrc(null);
@@ -356,7 +356,7 @@ public class GameController implements Initializable {
                             TranslateTransition orcdo=new TranslateTransition();
                             orcdo.setNode(orcobj.getObjectImg());
                             orcdo.setDuration(Duration.millis(1000));
-                            orcdo.setByY(310);
+                            orcdo.setByY(400);
                             orcdo.setRate(1);
                             orcdo.play();
                             g.getChildren().remove(orcobj);
