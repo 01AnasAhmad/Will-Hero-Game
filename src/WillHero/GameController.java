@@ -258,6 +258,9 @@ public class GameController implements Initializable {
         button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                upcol=false;
+                downcol=false;
+                sidecol=false;
                 TranslateTransition tt = new TranslateTransition();
                 tt.setNode(g);
                 tt.setDuration(Duration.millis(50));
@@ -336,7 +339,7 @@ public class GameController implements Initializable {
                     double orcup=willhero.getLocation1().getOrc().getObjectImg().getBoundsInParent().getMaxY();  // Y MAX orc
                     double orcdown=willhero.getLocation1().getOrc().getObjectImg().getBoundsInParent().getMinY();// Y MIN orc
                     if((heroup>=orcdown-6) && (herodown-6<=orcup)){
-                        System.out.println("side collision");
+                        sidecol=true;
                         Orc orcobj=willhero.getLocation1().getOrc();
                         int xte=orcobj.getLocation1().getNumber();
                         ImageView orctemp=willhero.getLocation1().getOrc().getObjectImg();
@@ -352,6 +355,7 @@ public class GameController implements Initializable {
                         locList[xte+1].setHas_orc(true);
                         locList[xte].setHas_orc(false);
                         if(!orcobj.getLocation1().isHas_platform()){
+                            locList[xte+1].setHas_orc(false);
                             orcobj.getTt().stop();
                             TranslateTransition orcdo=new TranslateTransition();
                             orcdo.setNode(orcobj.getObjectImg());
@@ -363,6 +367,10 @@ public class GameController implements Initializable {
                         }
 
                     }
+                    else if(orcdown>heroup+6){
+                        upcol=true;
+                    }
+                    else{downcol=true;}
                 }
             }
         });
@@ -539,7 +547,18 @@ public class GameController implements Initializable {
                     tfp.play();
                 }
             }
-
+            if(sidecol==true){
+                System.out.println("sidecollision");
+                sidecol=false;
+            }
+            if(downcol==true){
+                System.out.println("downcollision");
+                downcol=false;
+            }
+            if(upcol==true){
+                System.out.println("upcollision");
+                upcol=false;
+            }
         });
             g1.getChildren().add(willhero.getObjectImg());
         // Normal with island1 image Platforms
