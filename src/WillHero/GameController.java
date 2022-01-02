@@ -55,25 +55,6 @@ public class GameController implements Initializable {
     }
     public void reload() throws IOException,ClassNotFoundException{
         System.out.println("not work");
-        //        ObjectInputStream in = null;
-//        try {
-//            in = new ObjectInputStream(new FileInputStream("out.txt"));
-//            Hero h1 = (Hero)in.readObject();
-//            System.out.println(h1.getLocation1().getNumber());
-//            int a = h1.getLocation1().getNumber();
-//            int b = willhero.getLocation1().getNumber();
-//            TranslateTransition tt = new TranslateTransition();
-//            tt.setNode(g);
-//            tt.setByX((b-a)*200);
-//            tt.setDuration(Duration.millis(50));
-//            tt.play();
-//        }
-//        catch(Exception e){
-//            System.out.println(e.getMessage());}
-//        finally {
-//            assert in != null;
-//            in.close();
-//        }
     }
     public void saveloc() throws IOException{
         ObjectOutputStream locout = null;
