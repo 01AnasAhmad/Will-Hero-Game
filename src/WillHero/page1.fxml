@@ -30,7 +30,7 @@
             <Font name="Ebrima Bold" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="478.0" layoutY="511.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="92.0" style="-fx-background-color: #000000;" text="Load Game" textFill="#c73082">
+      <Button fx:id="loadbutton" layoutX="478.0" layoutY="511.0" mnemonicParsing="false" onAction="#load_screen" prefHeight="38.0" prefWidth="92.0" style="-fx-background-color: #000000;" text="Load Game" textFill="#c73082">
          <font>
             <Font name="Ebrima Bold" size="14.0" />
          </font>

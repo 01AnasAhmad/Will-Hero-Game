@@ -54,28 +54,26 @@ public class GameController implements Initializable {
         }
     }
     public void reload() throws IOException,ClassNotFoundException{
-        ObjectInputStream in = null;
-        try {
-            in = new ObjectInputStream(new FileInputStream("out.txt"));
-            Hero h1 = (Hero)in.readObject();
-            willhero=h1;
-            System.out.println(h1.getLocation1().getNumber());
-            int a = h1.getLocation1().getNumber();
-            int b = willhero.getLocation1().getNumber();
-            TranslateTransition tt = new TranslateTransition();
-            tt.setNode(g);
-            tt.setByX((b-a)*200);
-            tt.setDuration(Duration.millis(50));
-            tt.play();
-
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());}
-        finally {
-            assert in != null;
-            in.close();
-
-        }
+        System.out.println("not work");
+        //        ObjectInputStream in = null;
+//        try {
+//            in = new ObjectInputStream(new FileInputStream("out.txt"));
+//            Hero h1 = (Hero)in.readObject();
+//            System.out.println(h1.getLocation1().getNumber());
+//            int a = h1.getLocation1().getNumber();
+//            int b = willhero.getLocation1().getNumber();
+//            TranslateTransition tt = new TranslateTransition();
+//            tt.setNode(g);
+//            tt.setByX((b-a)*200);
+//            tt.setDuration(Duration.millis(50));
+//            tt.play();
+//        }
+//        catch(Exception e){
+//            System.out.println(e.getMessage());}
+//        finally {
+//            assert in != null;
+//            in.close();
+//        }
     }
     public void saveloc() throws IOException{
         ObjectOutputStream locout = null;
@@ -138,23 +136,23 @@ public class GameController implements Initializable {
             }
         });
         g1.getChildren().add(b);
-        Button b1 = new Button("load");
-        b1.setLayoutX(300);
-        b1.setLayoutY(400);
-        b1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    reload();
-                    System.out.println("reload complete");
-                    reloadloc();
-                    System.out.println("reloadloc complete");
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        g1.getChildren().add(b1);
+//        Button b1 = new Button("load");
+//        b1.setLayoutX(300);
+//        b1.setLayoutY(400);
+//        b1.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+////            public void handle(ActionEvent actionEvent) {
+////                try {
+////                    //reload();
+////                    //System.out.println("reload complete");
+////                    //reloadloc();
+////                    System.out.println("reloadloc complete");
+////                } catch (IOException | ClassNotFoundException e) {
+////                    e.printStackTrace();
+////                }
+////            }
+//        });
+        //g1.getChildren().add(b1);
 
         Text t = new Text("Location: "+1);
         t.setX(50);
@@ -262,7 +260,7 @@ public class GameController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 TranslateTransition tt = new TranslateTransition();
                 tt.setNode(g);
-                tt.setDuration(Duration.millis(250));
+                tt.setDuration(Duration.millis(50));
                 tt.setByX(-200);
                 tt.setRate(5);
                 count[0]++;
@@ -319,7 +317,6 @@ public class GameController implements Initializable {
                     flagfall=true;
                     flagfall2=true;
                 }
-
                 if(willhero.getLocation1().isHas_coin()){
                     flagcoinintersect=true;
                 }
@@ -333,6 +330,40 @@ public class GameController implements Initializable {
                     flagchestintersect=false;
                 }
                 System.out.println(willhero.getLocation1().getNumber());
+                if(willhero.getLocation1().isHas_orc()){
+                    double heroup=willhero.getObjectImg().getBoundsInParent().getMaxY();         // Y MAX hero
+                    double herodown=willhero.getObjectImg().getBoundsInParent().getMinY();       // Y MIN hero
+                    double orcup=willhero.getLocation1().getOrc().getObjectImg().getBoundsInParent().getMaxY();  // Y MAX orc
+                    double orcdown=willhero.getLocation1().getOrc().getObjectImg().getBoundsInParent().getMinY();// Y MIN orc
+                    if((heroup>=orcdown-6) && (herodown-6<=orcup)){
+                        System.out.println("side collision");
+                        Orc orcobj=willhero.getLocation1().getOrc();
+                        int xte=orcobj.getLocation1().getNumber();
+                        ImageView orctemp=willhero.getLocation1().getOrc().getObjectImg();
+                        TranslateTransition t1=new TranslateTransition();
+                        t1.setNode(orctemp);
+                        t1.setDuration(Duration.millis(800));
+                        t1.setByX(200);
+                        t1.setRate(2);
+                        t1.play();
+                        orcobj.setLocation1(locList[xte+1]);
+                        locList[xte].setOrc(null);
+                        locList[xte+1].setOrc(orcobj);
+                        locList[xte+1].setHas_orc(true);
+                        locList[xte].setHas_orc(false);
+                        if(!orcobj.getLocation1().isHas_platform()){
+                            orcobj.getTt().stop();
+                            TranslateTransition orcdo=new TranslateTransition();
+                            orcdo.setNode(orcobj.getObjectImg());
+                            orcdo.setDuration(Duration.millis(1000));
+                            orcdo.setByY(310);
+                            orcdo.setRate(1);
+                            orcdo.play();
+                            g.getChildren().remove(orcobj);
+                        }
+
+                    }
+                }
             }
         });
 
@@ -349,9 +380,6 @@ public class GameController implements Initializable {
 
 
         willhero.setHelmet(helmet);
-        //willhero.setWeapon_flag(1);
-       // if(willhero.getWeapon_flag()==0){//No weapon
-            //Hero Translation on Y axis . . .
             TranslateTransition translateTransition = new TranslateTransition();
             translateTransition.setNode(willhero.getObjectImg());
             translateTransition.setAutoReverse(true);
@@ -374,9 +402,9 @@ public class GameController implements Initializable {
         resurrectb.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(resurrectflag && willhero.getCoins()>=25){
+                if(resurrectflag && willhero.getCoins()>=15){
                     resurrectflag=false;
-                    willhero.increasecoins(-25);
+                    willhero.increasecoins(-15);
                     cointext.setText("Coins :"+willhero.getCoins());
                     willhero.getObjectImg().setY(-25);
                     willhero.getLocation1().setHas_platform(true);
@@ -409,7 +437,6 @@ public class GameController implements Initializable {
 
             }
         });
-//
         willhero.getObjectImg().translateYProperty().addListener((obs, old, newValue) -> {
             if(flagfall && (!willhero.getLocation1().isHas_platform() && !willhero.getLocation1().isHas_falling_platform()) && willhero.getObjectImg().getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                 flagfall=false;
@@ -460,9 +487,7 @@ public class GameController implements Initializable {
                     gameScreenFixed1.setVisible(false);
                 }
             }
-
             if(flagcoinintersect && willhero.getLocation1().isHas_coin() ){
-                System.out.println( willhero.getCoins());
                 if(willhero.getObjectImg().getBoundsInParent().getMinY()<230 && willhero.getObjectImg().getBoundsInParent().getMaxY()>210){
                     willhero.increasecoins(1);
                     cointext.setText("Coins: "+willhero.getCoins());
@@ -470,8 +495,8 @@ public class GameController implements Initializable {
                     flagcoinintersect=false;}
             }
             if(flagchestintersect && willhero.getLocation1().isHas_chest()){
-                System.out.println(willhero.getCoins());
                 if(willhero.getObjectImg().getBoundsInParent().getMaxY()>200 && willhero.getObjectImg().getBoundsInParent().getMinY()<226){
+                    if(willhero.getLocation1().getChest().getType()=="Coin"){
                     willhero.increasecoins(10);
                     cointext.setText("Coins: "+willhero.getCoins());
                     willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
@@ -486,6 +511,22 @@ public class GameController implements Initializable {
                     Imgchest1.setCache(true);
                     g.getChildren().add(Imgchest1);
                     flagchestintersect=false;}
+                    if(willhero.getLocation1().getChest().getType()=="Weapon"){
+
+                        willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
+                        Image chest1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestOpen.jpg");
+                        ImageView Imgchest1 = new ImageView(chest1);
+                        Imgchest1.setFitWidth(40);
+                        Imgchest1.setFitHeight(50);
+                        Imgchest1.setX((willhero.getLocation1().getNumber()) * 200 + 100);
+                        Imgchest1.setY(225);
+                        Imgchest1.setPreserveRatio(true);
+                        Imgchest1.setSmooth(true);
+                        Imgchest1.setCache(true);
+                        g.getChildren().add(Imgchest1);
+                        flagchestintersect=false;
+                    }
+                }
             }
             if(willhero.getLocation1().isHas_falling_platform()){
                 if(willhero.getObjectImg().getBoundsInParent().intersects(fallLine.getBoundsInParent())){
@@ -498,6 +539,7 @@ public class GameController implements Initializable {
                     tfp.play();
                 }
             }
+
         });
             g1.getChildren().add(willhero.getObjectImg());
         // Normal with island1 image Platforms
@@ -537,6 +579,7 @@ public class GameController implements Initializable {
                 g.getChildren().add(orcImg1);
 
                 Green_Orc greenOrc = new Green_Orc(locList[i+1],orcImg1);
+                greenOrc.setTt(translateOrc);
                 locList[i+1].setHas_orc(true);
                 locList[i+1].setOrc(greenOrc);
 
@@ -982,6 +1025,7 @@ public class GameController implements Initializable {
         translateOrc.play();
         g.getChildren().add(orcImg1);
         Boss_Orc bossOrc = new Boss_Orc(locList[112],orcImg1); //hardcoded value
+        bossOrc.setTt(translateOrc);
         locList[112].setHas_orc(true);
         locList[112].setOrc(bossOrc);
 

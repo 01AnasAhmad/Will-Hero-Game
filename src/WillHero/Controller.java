@@ -26,6 +26,8 @@ public class Controller {
     private TextField userName;
     @FXML
     private Button exitButton;
+    @FXML
+    private Button loadbutton;
 
     public void ButtonHandler(ActionEvent e) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("page2.fxml")));
@@ -40,6 +42,19 @@ public class Controller {
         stage.setScene(new Scene(parent,900,490));
         stage.show();
     }
+    @FXML
+    void load_screen(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game1.fxml"));
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1,900,490));
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void ExitApplication(ActionEvent e) throws IOException{
         System.out.println("Exiting the Application");
