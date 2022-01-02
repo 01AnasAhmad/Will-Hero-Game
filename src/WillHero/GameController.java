@@ -116,6 +116,7 @@ public class GameController implements Initializable {
     boolean flagfall2=true;
     boolean flagcoinintersect=false;
     boolean flagchestintersect=false;
+    boolean resurrectflag=true;
     @FXML
     private AnchorPane gameScreenFixed1;
 
@@ -253,12 +254,9 @@ public class GameController implements Initializable {
         int flagChest = 0;
         int flagChest2 = 0;
         int flagweapon = 0;
-        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-            }
-        });
+        Stage reliveStage = new Stage();
+        Button exitb = new Button("Exit");
+        //////////////////////////////////////////////////////////////////////////////////////
         button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -286,7 +284,16 @@ public class GameController implements Initializable {
                     btn.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
-
+                            try {
+                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
+                                Parent root1 = fxmlLoader.load();
+                                Stage stage = new Stage();
+                                stage.setScene(new Scene(root1,900,490));
+                                stage.show();
+                                s.close();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                     g4.getChildren().add(btn);
@@ -308,6 +315,11 @@ public class GameController implements Initializable {
                     s.setTitle("YOU WON");
                     s.show();
                 }
+                if(!willhero.getLocation1().isHas_platform()){
+                    flagfall=true;
+                    flagfall2=true;
+                }
+
                 if(willhero.getLocation1().isHas_coin()){
                     flagcoinintersect=true;
                 }
@@ -327,13 +339,13 @@ public class GameController implements Initializable {
         // Only for HERO
         g1.getChildren().add(button);
         //Hero image added
-        heroImg.setFitHeight(25);
-        heroImg.setFitWidth(25);
-        heroImg.setX(300);
-        heroImg.setY(225);
-        heroImg.setPreserveRatio(true);
-        heroImg.setSmooth(true);
-        heroImg.setCache(true);
+        willhero.getObjectImg().setFitHeight(25);
+        willhero.getObjectImg().setFitWidth(25);
+        willhero.getObjectImg().setX(300);
+        willhero.getObjectImg().setY(225);
+        willhero.getObjectImg().setPreserveRatio(true);
+        willhero.getObjectImg().setSmooth(true);
+        willhero.getObjectImg().setCache(true);
 
 
         willhero.setHelmet(helmet);
@@ -341,7 +353,7 @@ public class GameController implements Initializable {
        // if(willhero.getWeapon_flag()==0){//No weapon
             //Hero Translation on Y axis . . .
             TranslateTransition translateTransition = new TranslateTransition();
-            translateTransition.setNode(heroImg);
+            translateTransition.setNode(willhero.getObjectImg());
             translateTransition.setAutoReverse(true);
             translateTransition.setDuration(Duration.millis(1500));
             translateTransition.setByY(-60);
@@ -358,14 +370,53 @@ public class GameController implements Initializable {
             rescrnline.setTranslateX(275);
             rescrnline.setTranslateY(482);
             g1.getChildren().add(rescrnline);
+
+        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(resurrectflag && willhero.getCoins()>=25){
+                    resurrectflag=false;
+                    willhero.increasecoins(-25);
+                    cointext.setText("Coins :"+willhero.getCoins());
+                    willhero.getObjectImg().setY(-25);
+                    willhero.getLocation1().setHas_platform(true);
+                Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
+                ImageView islandImg = new ImageView(island);
+                islandImg.setFitHeight(100);
+                islandImg.setFitWidth(200);
+                islandImg.setX((willhero.getLocation1().getNumber()) * 200);
+                islandImg.setY(250);
+                islandImg.setPreserveRatio(true);
+                islandImg.setSmooth(true);
+                islandImg.setCache(true);
+                g.getChildren().add(islandImg);
+                TranslateTransition fall1=new TranslateTransition();
+                fall1.setNode(willhero.getObjectImg());
+                fall1.setDuration(Duration.millis(800));
+                fall1.setByY(-250);
+                fall1.setCycleCount(1);
+                fall1.play();
+
+                TranslateTransition translateTransition = new TranslateTransition();
+                translateTransition.setNode(willhero.getObjectImg());
+                translateTransition.setAutoReverse(true);
+                translateTransition.setDuration(Duration.millis(1500));
+                translateTransition.setByY(-60);
+                translateTransition.setRate(3);
+                translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+                translateTransition.play();
+                reliveStage.close();}
+
+            }
+        });
 //
-        heroImg.translateYProperty().addListener((obs, old, newValue) -> {
-            if(flagfall && (!willhero.getLocation1().isHas_platform() && !willhero.getLocation1().isHas_falling_platform()) && heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
+        willhero.getObjectImg().translateYProperty().addListener((obs, old, newValue) -> {
+            if(flagfall && (!willhero.getLocation1().isHas_platform() && !willhero.getLocation1().isHas_falling_platform()) && willhero.getObjectImg().getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                 flagfall=false;
                 translateTransition.stop();
 
                 TranslateTransition fall=new TranslateTransition();
-                fall.setNode(heroImg);
+                fall.setNode(willhero.getObjectImg());
                 fall.setDuration(Duration.millis(800));
                 fall.setByY(250);
                 fall.setCycleCount(1);
@@ -373,18 +424,12 @@ public class GameController implements Initializable {
                 System.out.println("you lost");
                 //System.out.println(heroImg.getBoundsInParent() +" prob "+rescrnline.getBoundsInParent());
             }
-            if(flagfall2 && heroImg.getBoundsInParent().intersects(rescrnline.getBoundsInParent())) {
+            if(flagfall2 && willhero.getObjectImg().getBoundsInParent().intersects(rescrnline.getBoundsInParent())) {
                 flagfall2 = false;
                 System.out.println("ok");
-                Stage reliveStage = new Stage();
-                Button exitb = new Button("Exit");
                 exitb.setLayoutX(50);
                 exitb.setLayoutY(40);
                 exitb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
-//                Button resurrectb = new Button("Resurrect");
-//                resurrectb.setLayoutX(500);
-//                resurrectb.setLayoutY(300);
-//                resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
                 Group relivegroup = new Group(); // Separate group being created every time
 
                 relivegroup.getChildren().add(exitb);
@@ -394,16 +439,23 @@ public class GameController implements Initializable {
                 reliveStage.setScene(reliveScene);
                 reliveStage.setTitle("You Lose");
                 reliveStage.show();
+                if(resurrectflag==false){
+                    //close the back screen
+                    gameScreenFixed1.setVisible(false);
+                }
             }
+
             if(flagcoinintersect && willhero.getLocation1().isHas_coin() ){
-                if(heroImg.getY()<230 && heroImg.getY()>210){
+                System.out.println( willhero.getCoins());
+                if(willhero.getObjectImg().getBoundsInParent().getMinY()<230 && willhero.getObjectImg().getBoundsInParent().getMaxY()>210){
                     willhero.increasecoins(1);
                     cointext.setText("Coins: "+willhero.getCoins());
                     willhero.getLocation1().getCoinhere().setOpacity(0.0);
                     flagcoinintersect=false;}
             }
             if(flagchestintersect && willhero.getLocation1().isHas_chest()){
-                if(heroImg.getY()>200 && heroImg.getY()<226){
+                System.out.println(willhero.getCoins());
+                if(willhero.getObjectImg().getBoundsInParent().getMaxY()>200 && willhero.getObjectImg().getBoundsInParent().getMinY()<226){
                     willhero.increasecoins(10);
                     cointext.setText("Coins: "+willhero.getCoins());
                     willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
@@ -420,7 +472,7 @@ public class GameController implements Initializable {
                     flagchestintersect=false;}
             }
             if(willhero.getLocation1().isHas_falling_platform()){
-                if(heroImg.getBoundsInParent().intersects(fallLine.getBoundsInParent())){
+                if(willhero.getObjectImg().getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                     willhero.getLocation1().setHas_falling_platform(false);
                     TranslateTransition tfp=new TranslateTransition();
                     tfp.setNode(willhero.getLocation1().getFallingplatform());
@@ -431,7 +483,7 @@ public class GameController implements Initializable {
                 }
             }
         });
-            g1.getChildren().add(heroImg);
+            g1.getChildren().add(willhero.getObjectImg());
         // Normal with island1 image Platforms
         for (int i = 0; i < 81;) {   // Creating Islands...
             Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");

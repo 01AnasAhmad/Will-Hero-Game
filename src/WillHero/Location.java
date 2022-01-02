@@ -12,12 +12,18 @@ public class Location implements Serializable{
     private transient ImageView coinhere;
     private transient ImageView fallingplatform;
     private boolean has_coin=false;
+
+
     private boolean has_platform;
     private boolean has_chest;
     private boolean has_orc;
     private boolean has_falling_platform;
     Location(int loc,boolean has_platform){ //For island
         this.number = loc;
+        this.has_platform = has_platform;
+    }
+
+    public void setHas_platform(boolean has_platform) {
         this.has_platform = has_platform;
     }
 
