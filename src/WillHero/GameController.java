@@ -430,8 +430,24 @@ public class GameController implements Initializable {
                 exitb.setLayoutX(50);
                 exitb.setLayoutY(40);
                 exitb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                exitb.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        reliveStage.close();
+                        gameScreenFixed1.setVisible(false);
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
+                            Parent root1 = fxmlLoader.load();
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(root1,900,490));
+                            stage.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
+                            stage.show();
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 Group relivegroup = new Group(); // Separate group being created every time
-
                 relivegroup.getChildren().add(exitb);
                 relivegroup.getChildren().add(resurrectb);
                 Scene reliveScene = new Scene(relivegroup, 300, 100);
