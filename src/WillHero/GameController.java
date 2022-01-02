@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -271,7 +272,42 @@ public class GameController implements Initializable {
                 tt.play();
 
                 t.setText("Location: "+(willhero.getLocation1().getNumber()));
+                if(willhero.getLocation1().getNumber()==122){
+                    Stage s=new Stage();
+                    Group g4=new Group();
+                    Scene scn=new Scene(g4,900,490);
+                    Button btn=new Button();
+                    ImageView img =new ImageView(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\savenexit.jpg"));
+                    btn.setGraphic(img);
+                    img.setFitWidth(90);
+                    img.setFitHeight(90);
+                    btn.setLayoutX(405);
+                    btn.setLayoutY(350);
+                    btn.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
 
+                        }
+                    });
+                    g4.getChildren().add(btn);
+                    scn.setFill(Color.SKYBLUE);
+                    Text text = new Text(100, 250, "YOU WON");
+                    //Setting the font
+                    Font font = Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 150);
+                    text.setFont(font);
+                    //Setting the color of the text
+                    text.setFill(Color.YELLOW);
+                    //Setting the width
+                    text.setStrokeWidth(2);
+                    //Setting the stroke color
+                    text.setStroke(Color.YELLOW);
+                    s.setResizable(false);
+                    s.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
+                    g4.getChildren().add(text);
+                    s.setScene(scn);
+                    s.setTitle("YOU WON");
+                    s.show();
+                }
                 if(willhero.getLocation1().isHas_coin()){
                     flagcoinintersect=true;
                 }
