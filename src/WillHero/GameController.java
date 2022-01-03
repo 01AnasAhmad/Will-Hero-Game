@@ -46,14 +46,6 @@ public class GameController implements Initializable {
     Button swordb = new Button();
     Image img2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\savenexit.jpg");
     ImageView i2 = new ImageView(img2);
-    ;
-//    sword.setFitWidth();
-//    i2.setFitHeight(50);
-//    saveb.setLayoutX(120);
-//    saveb.setLayoutY(10);
-//    saveb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
-//    g1.getChildren().add();
-
     private Hero willhero = new Hero(heroloc,heroImg);
     public void save() throws IOException{
         ObjectOutputStream out = null;
@@ -61,8 +53,6 @@ public class GameController implements Initializable {
         try {
             out = new ObjectOutputStream (new FileOutputStream("out.txt"));
             out.writeObject(willhero);
-//            locout = new ObjectOutputStream(new FileOutputStream("locout.txt"));
-//            locout.writeObject(locList);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -70,45 +60,6 @@ public class GameController implements Initializable {
         finally {
             assert out != null;
             out.close();
-//            assert locout != null;
-//            locout.close();
-        }
-    }
-    public void reload() throws IOException,ClassNotFoundException{
-        System.out.println("not work");
-    }
-    public void saveloc() throws IOException{
-        ObjectOutputStream locout = null;
-        try{
-            locout = new ObjectOutputStream(new FileOutputStream("locout.txt"));
-            locout.writeObject(locList);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        finally {
-            assert locout != null;
-            locout.close();
-        }
-    }
-    public void reloadloc() throws IOException,ClassNotFoundException{
-        ObjectInputStream locin = null;
-        try{
-            locin = new ObjectInputStream (new FileInputStream("locout.txt"));
-            Location[] loclist1 = (Location[]) locin.readObject();
-
-            for (Location location : loclist1) {
-                System.out.println("hello");
-                System.out.println(location.getNumber());
-                System.out.println("Okkkkkk");
-            }
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        finally {
-            assert locin != null;
-            locin.close();
         }
     }
     private Helmet helmet = new Helmet();
@@ -125,23 +76,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Button b = new Button("save");
-        b.setLayoutX(200);
-        b.setLayoutY(400);
-        b.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    save();
-                    System.out.println("save Complete");
-                    //saveloc();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        g1.getChildren().add(b);
-        Text t = new Text("Location: "+1); //Show on screen
+        Text t = new Text("Location: "+1);
         t.setX(50);
         t.setY(50);
         t.setFont(Font.font ("Arial", FontWeight.BLACK,32));
@@ -207,23 +142,12 @@ public class GameController implements Initializable {
                 saveb.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        ObjectOutputStream out = null;
-                        try {
-                            out = new ObjectOutputStream (new FileOutputStream("out.txt"));
-                            out.writeObject(willhero);
-
-                        }
-                        catch (Exception e){
-                            System.out.println(e.getMessage());
-                        }
-                        finally {
-                            assert out != null;
                             try {
-                                out.close();
+                                save();
+                                System.out.println("save Complete");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }
                     }
                 });
 
@@ -471,69 +395,6 @@ public class GameController implements Initializable {
                             //close the back screen
                             gameScreenFixed1.setVisible(false);
                         }
-//                        Button resurrectb = new Button("Resurrect");
-//                        resurrectb.setLayoutX(190);
-//                        resurrectb.setLayoutY(40);
-//                        resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
-//                        Button exitb = new Button("Exit");
-//                        Stage reliveStage = new Stage();
-//
-//                        exitb.setOnAction(new EventHandler<ActionEvent>() {
-//                            @Override
-//                            public void handle(ActionEvent actionEvent) {
-//                                reliveStage.close();
-//                                gameScreenFixed1.setVisible(false);
-//                                try {
-//                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
-//                                    Parent root1 = fxmlLoader.load();
-//                                    Stage stage = new Stage();
-//                                    stage.setScene(new Scene(root1,900,490));
-//                                    stage.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
-//                                    stage.show();
-//                                }
-//                                catch(Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
-//                        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
-//                            @Override
-//                            public void handle(ActionEvent actionEvent) {
-//                                if(resurrectflag && willhero.getCoins()>=15){
-//                                    resurrectflag=false;
-//                                    willhero.increasecoins(-15);
-//                                    cointext.setText("Coins :"+willhero.getCoins());
-//                                    willhero.getObjectImg().setY(-25);
-//                                    willhero.getLocation1().setHas_platform(true);
-//                                    Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
-//                                    ImageView islandImg = new ImageView(island);
-//                                    islandImg.setFitHeight(100);
-//                                    islandImg.setFitWidth(200);
-//                                    islandImg.setX((willhero.getLocation1().getNumber()) * 200);
-//                                    islandImg.setY(250);
-//                                    islandImg.setPreserveRatio(true);
-//                                    islandImg.setSmooth(true);
-//                                    islandImg.setCache(true);
-//                                    g.getChildren().add(islandImg);
-//                                    TranslateTransition fall1=new TranslateTransition();
-//                                    fall1.setNode(willhero.getObjectImg());
-//                                    fall1.setDuration(Duration.millis(800));
-//                                    fall1.setByY(-250);
-//                                    fall1.setCycleCount(1);
-//                                    fall1.play();
-//
-//                                    TranslateTransition translateTransition = new TranslateTransition();
-//                                    translateTransition.setNode(willhero.getObjectImg());
-//                                    translateTransition.setAutoReverse(true);
-//                                    translateTransition.setDuration(Duration.millis(1500));
-//                                    translateTransition.setByY(-60);
-//                                    translateTransition.setRate(3);
-//                                    translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-//                                    translateTransition.play();
-//                                    reliveStage.close();}
-//
-//                            }
-//                        });
                     }
                 }
             }
@@ -568,7 +429,7 @@ public class GameController implements Initializable {
         rescrnline.setTranslateY(482);
         g1.getChildren().add(rescrnline);
 
-            resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     if(resurrectflag && willhero.getCoins()>=15){
@@ -725,17 +586,17 @@ public class GameController implements Initializable {
                     tfp.play();
                 }
             }
-            if(sidecol==true){
+            if(sidecol){
                 System.out.println("sidecollision");
                 cointext.setText("Coins: "+willhero.getCoins());
                 sidecol=false;
             }
-            if(downcol==true){
+            if(downcol){
                 System.out.println("downcollision");
                 cointext.setText("Coins: "+willhero.getCoins());
                 downcol=false;
             }
-            if(upcol==true){
+            if(upcol){
                 System.out.println("upcollision");
                 cointext.setText("Coins: "+willhero.getCoins());
                 upcol=false;
@@ -757,7 +618,6 @@ public class GameController implements Initializable {
 
             Location islandloc = new Location(i+1,true);
             locList[i+1] = islandloc;
-            //hasPlatform[i+1] = 1;
             if(flag==1){
                 Image orc = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\greenorc.jpg");
                 ImageView orcImg1 = new ImageView(orc);
@@ -901,8 +761,6 @@ public class GameController implements Initializable {
                         locList[i+1].setHas_chest(true);
                         locList[i+1].setChest(wc);
                         flagweapon=1;
-//                        willhero.getHelmet().setSword(sword);
-//                        willhero.setWeapon_flag(1);
                     }
                     else{
                         knife knife = new knife();
@@ -910,8 +768,6 @@ public class GameController implements Initializable {
                         locList[i+1].setHas_chest(true);
                         locList[i+1].setChest(wc);
                         flagweapon=0;
-//                        willhero.getHelmet().setKnife(knife);
-//                        willhero.setWeapon_flag(2);
                     }
                     flagChest2 = 0;
                 }
@@ -1274,95 +1130,3 @@ public class GameController implements Initializable {
         gameScreenFixed1.getChildren().add(g1);
     }
 }
-
-//Button w1 = new Button("Sword");
-//Button w2 = new Button("Knife");
-//w1.setLayoutX();
-//w1.setLayoutY();
-//Image sword = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\_______.jpg");
-//ImageView swordimg = new ImageView(sword);
-//w1.setMinHeight();
-//w1.setMinWidth();
-//w1.setFitHeight();
-//w1.setFitWidth();
-//g1.getChildren().add(w1);
-
-//w2.setLayoutX();
-//Button ingamemenub = new Button();
-//  Image menuimg = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\settings.jpg");
-//ImageView inmenu = new ImageView(menuimg);
-//  ingamemenub.setGraphic(inmenu);
-//        ingamemenub.setLayoutX(790);
-//      ingamemenub.setLayoutY(30);
-//    ingamemenub.setMinHeight(50);
-//  ingamemenub.setMinWidth(50);
-//inmenu.setFitHeight(50);
-//inmenu.setFitWidth(60);
-//g1.getChildren().add(ingamemenub);
-
-//
-/*
-    Button resurrectb = new Button("Resurrect");
-    resurrectb.setLayoutX(190);
-    resurrectb.setLayoutY(40);
-    resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
-    Button exitb = new Button("Exit");
-    Stage reliveStage = new Stage();
-
-    exitb.setOnAction(new EventHandler<ActionEvent>() {
-    @Override
-    public void handle(ActionEvent actionEvent) {
-        reliveStage.close();
-        gameScreenFixed1.setVisible(false);
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
-            Parent root1 = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1,900,490));
-            stage.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
-            stage.show();
-        }
-         catch(Exception e) {
-            e.printStackTrace();
-            }
-         }
-    });
-    resurrectb.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(resurrectflag && willhero.getCoins()>=15){
-                    resurrectflag=false;
-                    willhero.increasecoins(-15);
-                    cointext.setText("Coins :"+willhero.getCoins());
-                    willhero.getObjectImg().setY(-25);
-                    willhero.getLocation1().setHas_platform(true);
-                    Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
-                    ImageView islandImg = new ImageView(island);
-                    islandImg.setFitHeight(100);
-                    islandImg.setFitWidth(200);
-                    islandImg.setX((willhero.getLocation1().getNumber()) * 200);
-                    islandImg.setY(250);
-                    islandImg.setPreserveRatio(true);
-                    islandImg.setSmooth(true);
-                    islandImg.setCache(true);
-                    g.getChildren().add(islandImg);
-                    TranslateTransition fall1=new TranslateTransition();
-                    fall1.setNode(willhero.getObjectImg());
-                    fall1.setDuration(Duration.millis(800));
-                    fall1.setByY(-250);
-                    fall1.setCycleCount(1);
-                    fall1.play();
-
-                    TranslateTransition translateTransition = new TranslateTransition();
-                    translateTransition.setNode(willhero.getObjectImg());
-                    translateTransition.setAutoReverse(true);
-                    translateTransition.setDuration(Duration.millis(1500));
-                    translateTransition.setByY(-60);
-                    translateTransition.setRate(3);
-                    translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-                    translateTransition.play();
-                    reliveStage.close();}
-
-            }
-        });
-*/
