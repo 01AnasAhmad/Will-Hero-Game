@@ -8,7 +8,6 @@ public class Weapon implements Serializable {//extends GameObjects{
     private int damage_value;
     private int level;
     private String wname;
-    private transient ImageView img;
     public void setWname(String wname) {
         this.wname = wname;
     }
@@ -31,13 +30,5 @@ public class Weapon implements Serializable {//extends GameObjects{
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public ImageView getImg() {
-        return img;
-    }
-
-    public void setImg(ImageView img) {
-        this.img = img;
     }
 }

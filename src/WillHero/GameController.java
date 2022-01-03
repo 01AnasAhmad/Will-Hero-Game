@@ -4,8 +4,12 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,32 +20,49 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 
 import java.io.*;
 import java.net.URL;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class GameController implements Initializable {
-    Group g = new Group(); // Global
-    Image hero = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\hero.jpg");
-    ImageView heroImg = new ImageView(hero);
-    final int[] count = {1};
-    Group g1 = new Group();
-    Location[] locList = new Location[123];
-    Location heroloc = new Location(0,true);
+import javafx.scene.shape.Line;
 
-    Hero willhero = new Hero(heroloc,heroImg);
+public class GameController implements Initializable {
+    private Group g = new Group(); // Global --- Main
+    private Image hero = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\hero.jpg");
+    private ImageView heroImg = new ImageView(hero);
+    private final int[] count = {1};
+    private Group g1 = new Group();
+    private Location[] locList = new Location[123];
+    private Location heroloc = new Location(0,true);
+
+    ImageView sword = new ImageView(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\swordicon.jpg"));
+    ImageView knife = new ImageView("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\knifeicon.png");
+    Button swordb = new Button();
+    Image img2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\savenexit.jpg");
+    ImageView i2 = new ImageView(img2);
+    ;
+//    sword.setFitWidth();
+//    i2.setFitHeight(50);
+//    saveb.setLayoutX(120);
+//    saveb.setLayoutY(10);
+//    saveb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+//    g1.getChildren().add();
+
+    private Hero willhero = new Hero(heroloc,heroImg);
     public void save() throws IOException{
         ObjectOutputStream out = null;
-        ObjectOutputStream locout = null;
+        //ObjectOutputStream locout = null;
         try {
             out = new ObjectOutputStream (new FileOutputStream("out.txt"));
             out.writeObject(willhero);
-            locout = new ObjectOutputStream(new FileOutputStream("locout.txt"));
-            locout.writeObject(locList);
+//            locout = new ObjectOutputStream(new FileOutputStream("locout.txt"));
+//            locout.writeObject(locList);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -49,8 +70,8 @@ public class GameController implements Initializable {
         finally {
             assert out != null;
             out.close();
-            assert locout != null;
-            locout.close();
+//            assert locout != null;
+//            locout.close();
         }
     }
     public void reload() throws IOException,ClassNotFoundException{
@@ -90,12 +111,15 @@ public class GameController implements Initializable {
             locin.close();
         }
     }
-    Helmet helmet = new Helmet();
-    boolean flagfall=true;
-    boolean flagfall2=true;
-    boolean flagcoinintersect=false;
-    boolean flagchestintersect=false;
-    boolean resurrectflag=true;
+    private Helmet helmet = new Helmet();
+    private boolean flagfall=true;
+    private boolean flagfall2=true;
+    private boolean flagcoinintersect=false;
+    private boolean flagchestintersect=false;
+    private boolean resurrectflag=true;
+    private boolean sidecol=false;
+    private boolean upcol=false;
+    private boolean downcol=false;
     @FXML
     private AnchorPane gameScreenFixed1;
 
@@ -117,25 +141,7 @@ public class GameController implements Initializable {
             }
         });
         g1.getChildren().add(b);
-//        Button b1 = new Button("load");
-//        b1.setLayoutX(300);
-//        b1.setLayoutY(400);
-//        b1.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-////            public void handle(ActionEvent actionEvent) {
-////                try {
-////                    //reload();
-////                    //System.out.println("reload complete");
-////                    //reloadloc();
-////                    System.out.println("reloadloc complete");
-////                } catch (IOException | ClassNotFoundException e) {
-////                    e.printStackTrace();
-////                }
-////            }
-//        });
-        //g1.getChildren().add(b1);
-
-        Text t = new Text("Location: "+1);
+        Text t = new Text("Location: "+1); //Show on screen
         t.setX(50);
         t.setY(50);
         t.setFont(Font.font ("Arial", FontWeight.BLACK,32));
@@ -144,7 +150,7 @@ public class GameController implements Initializable {
         t.setStrokeWidth(1.0);
         t.setFill(Color.WHITE);
         g1.getChildren().add(t);
-        Text cointext = new Text("Coins: "+0);
+        Text cointext = new Text("Coins: "+0);//Show on screen
         cointext.setX(700);
         cointext.setY(450);
         cointext.setFont(Font.font ("Arial", FontWeight.BLACK,32));
@@ -186,6 +192,7 @@ public class GameController implements Initializable {
                     }
                 });
                 g2.getChildren().add(continueb);
+
                 Button saveb = new Button();
                 Image img2 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\savenexit.jpg");
                 ImageView i2 = new ImageView(img2);
@@ -194,9 +201,33 @@ public class GameController implements Initializable {
                 i2.setFitHeight(50);
                 saveb.setLayoutX(120);
                 saveb.setLayoutY(10);
-                g2.getChildren().add(saveb);
-
                 saveb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                g2.getChildren().add(saveb);
+                //Adding Button
+                saveb.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        ObjectOutputStream out = null;
+                        try {
+                            out = new ObjectOutputStream (new FileOutputStream("out.txt"));
+                            out.writeObject(willhero);
+
+                        }
+                        catch (Exception e){
+                            System.out.println(e.getMessage());
+                        }
+                        finally {
+                            assert out != null;
+                            try {
+                                out.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+
                 Button soundb = new Button();
                 Image img3 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\sound.jpg");
                 ImageView i3 = new ImageView(img3);
@@ -207,13 +238,13 @@ public class GameController implements Initializable {
                 soundb.setLayoutY(10);
                 soundb.setBorder(new Border(new BorderStroke(Color.SKYBLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
                 g2.getChildren().add(soundb);
+
                 Scene s2 = new Scene(g2,330,90);
                 s.setScene(s2);
                 s.setResizable(false);
                 s2.setFill(Color.SKYBLUE);
                 Image icon = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg");
                 s.getIcons().add(icon);
-
                 s.setTitle("Pause Menu");
                 s.show();
             }
@@ -222,12 +253,10 @@ public class GameController implements Initializable {
         button.setLayoutX(385);
         button.setLayoutY(400);
         button.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,new BorderWidths(4))));
-        //int [] hasPlatform = new int[123];
         Button resurrectb = new Button("Resurrect");
         resurrectb.setLayoutX(190);
         resurrectb.setLayoutY(40);
         resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
-
         int flag = 0 ; //
         int flagCoin = 0;
         int flagChest = 0;
@@ -252,7 +281,7 @@ public class GameController implements Initializable {
                 tt.play();
 
                 t.setText("Location: "+(willhero.getLocation1().getNumber()));
-                if(willhero.getLocation1().getNumber()==122){
+                if(willhero.getLocation1().getNumber()==122){ // Player Reached the end
                     Stage s=new Stage();
                     Group g4=new Group();
                     Scene scn=new Scene(g4,900,490);
@@ -324,41 +353,192 @@ public class GameController implements Initializable {
                         Orc orcobj=willhero.getLocation1().getOrc();
                         int xte=orcobj.getLocation1().getNumber();
                         ImageView orctemp=willhero.getLocation1().getOrc().getObjectImg();
-                        TranslateTransition t1=new TranslateTransition();
-                        t1.setNode(orctemp);
-                        t1.setDuration(Duration.millis(800));
-                        t1.setByX(200);
-                        t1.setRate(4);
-                        t1.play();
-                        orcobj.setLocation1(locList[xte+1]);
-                        locList[xte].setOrc(null);
-                        locList[xte+1].setOrc(orcobj);
-                        locList[xte+1].setHas_orc(true);
-                        locList[xte].setHas_orc(false);
-                        if(!orcobj.getLocation1().isHas_platform()){
-                            locList[xte+1].setHas_orc(false);
-                            orcobj.getTt().stop();
-                            TranslateTransition orcdo=new TranslateTransition();
-                            orcdo.setNode(orcobj.getObjectImg());
-                            orcdo.setDuration(Duration.millis(1000));
-                            orcdo.setByY(400);
-                            orcdo.setRate(1);
-                            orcdo.play();
-                            g.getChildren().remove(orcobj);
+                        if(willhero.getWeapon_flag()==0){
+                            TranslateTransition t1=new TranslateTransition();
+                            t1.setNode(orctemp);
+                            t1.setDuration(Duration.millis(800));
+                            t1.setByX(200);
+                            t1.setRate(4);
+                            t1.play();
+                            orcobj.setLocation1(locList[xte+1]);
+                            locList[xte].setOrc(null);
+                            locList[xte+1].setOrc(orcobj);
+                            locList[xte+1].setHas_orc(true);
+                            locList[xte].setHas_orc(false);
+                            if(!orcobj.getLocation1().isHas_platform()){
+                                willhero.increasecoins(2);
+                                locList[xte+1].setHas_orc(false);
+                                orcobj.getTt().stop();
+                                TranslateTransition orcdo=new TranslateTransition();
+                                orcdo.setNode(orcobj.getObjectImg());
+                                orcdo.setDuration(Duration.millis(1000));
+                                orcdo.setByY(400);
+                                orcdo.setRate(1);
+                                orcdo.play();
+                                g.getChildren().remove(orcobj);}
                         }
-
+                        else if(willhero.getWeapon_flag()==1){
+                            orctemp.setOpacity(0.0);
+                            willhero.increasecoins(2);
+                            locList[xte].setHas_orc(false);
+                            locList[xte].setOrc(null);
+                        }
+                        else{
+                            orctemp.setOpacity(0.0);
+                            willhero.increasecoins(2);
+                            locList[xte].setHas_orc(false);
+                            locList[xte].setOrc(null);
+                        }
                     }
                     else if(orcdown>heroup+6){
                         upcol=true;
+                        willhero.getLocation1().getOrc().getObjectImg().setOpacity(0.0);
                     }
-                    else{downcol=true;}
+                    else{
+                        downcol=true;
+                        gameScreenFixed1.setVisible(false);
+                        resurrectb.setLayoutX(190);
+                        resurrectb.setLayoutY(40);
+                        resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                        exitb.setLayoutX(50);
+                        exitb.setLayoutY(40);
+                        exitb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+                        exitb.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                reliveStage.close();
+                                gameScreenFixed1.setVisible(false);
+                                try {
+                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
+                                    Parent root1 = fxmlLoader.load();
+                                    Stage stage = new Stage();
+                                    stage.setScene(new Scene(root1,900,490));
+                                    stage.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
+                                    stage.show();
+                                } catch(Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                if(resurrectflag && willhero.getCoins()>=15){
+                                    resurrectflag=false;
+                                    gameScreenFixed1.setVisible(true);
+                                    willhero.increasecoins(-15);
+                                    cointext.setText("Coins :"+willhero.getCoins());
+                                    willhero.getObjectImg().setY(-25);
+                                    willhero.getLocation1().setHas_platform(true);
+                                    Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
+                                    ImageView islandImg = new ImageView(island);
+                                    islandImg.setFitHeight(100);
+                                    islandImg.setFitWidth(200);
+                                    islandImg.setX((willhero.getLocation1().getNumber()) * 200);
+                                    islandImg.setY(250);
+                                    islandImg.setPreserveRatio(true);
+                                    islandImg.setSmooth(true);
+                                    islandImg.setCache(true);
+                                    g.getChildren().add(islandImg);
+                                    TranslateTransition fall1=new TranslateTransition();
+                                    fall1.setNode(willhero.getObjectImg());
+                                    fall1.setDuration(Duration.millis(800));
+                                    fall1.setByY(-250);
+                                    fall1.setCycleCount(1);
+                                    fall1.play();
+
+                                    TranslateTransition translateTransition = new TranslateTransition();
+                                    translateTransition.setNode(willhero.getObjectImg());
+                                    translateTransition.setAutoReverse(true);
+                                    translateTransition.setDuration(Duration.millis(1500));
+                                    translateTransition.setByY(-60);
+                                    translateTransition.setRate(3);
+                                    translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+                                    translateTransition.play();
+                                    reliveStage.close();}
+
+                            }
+                        });
+                        Group relivegroup = new Group(); // Separate group being created every time
+                        relivegroup.getChildren().add(exitb);
+                        relivegroup.getChildren().add(resurrectb);
+                        Scene reliveScene = new Scene(relivegroup, 300, 100);
+                        reliveScene.setFill(Color.SKYBLUE);
+                        reliveStage.setScene(reliveScene);
+                        reliveStage.setTitle("You Lose");
+                        reliveStage.show();
+                        if(resurrectflag==false){
+                            //close the back screen
+                            gameScreenFixed1.setVisible(false);
+                        }
+//                        Button resurrectb = new Button("Resurrect");
+//                        resurrectb.setLayoutX(190);
+//                        resurrectb.setLayoutY(40);
+//                        resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+//                        Button exitb = new Button("Exit");
+//                        Stage reliveStage = new Stage();
+//
+//                        exitb.setOnAction(new EventHandler<ActionEvent>() {
+//                            @Override
+//                            public void handle(ActionEvent actionEvent) {
+//                                reliveStage.close();
+//                                gameScreenFixed1.setVisible(false);
+//                                try {
+//                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
+//                                    Parent root1 = fxmlLoader.load();
+//                                    Stage stage = new Stage();
+//                                    stage.setScene(new Scene(root1,900,490));
+//                                    stage.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
+//                                    stage.show();
+//                                }
+//                                catch(Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        });
+//                        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+//                            @Override
+//                            public void handle(ActionEvent actionEvent) {
+//                                if(resurrectflag && willhero.getCoins()>=15){
+//                                    resurrectflag=false;
+//                                    willhero.increasecoins(-15);
+//                                    cointext.setText("Coins :"+willhero.getCoins());
+//                                    willhero.getObjectImg().setY(-25);
+//                                    willhero.getLocation1().setHas_platform(true);
+//                                    Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
+//                                    ImageView islandImg = new ImageView(island);
+//                                    islandImg.setFitHeight(100);
+//                                    islandImg.setFitWidth(200);
+//                                    islandImg.setX((willhero.getLocation1().getNumber()) * 200);
+//                                    islandImg.setY(250);
+//                                    islandImg.setPreserveRatio(true);
+//                                    islandImg.setSmooth(true);
+//                                    islandImg.setCache(true);
+//                                    g.getChildren().add(islandImg);
+//                                    TranslateTransition fall1=new TranslateTransition();
+//                                    fall1.setNode(willhero.getObjectImg());
+//                                    fall1.setDuration(Duration.millis(800));
+//                                    fall1.setByY(-250);
+//                                    fall1.setCycleCount(1);
+//                                    fall1.play();
+//
+//                                    TranslateTransition translateTransition = new TranslateTransition();
+//                                    translateTransition.setNode(willhero.getObjectImg());
+//                                    translateTransition.setAutoReverse(true);
+//                                    translateTransition.setDuration(Duration.millis(1500));
+//                                    translateTransition.setByY(-60);
+//                                    translateTransition.setRate(3);
+//                                    translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+//                                    translateTransition.play();
+//                                    reliveStage.close();}
+//
+//                            }
+//                        });
+                    }
                 }
             }
         });
-
-        // Only for HERO
         g1.getChildren().add(button);
-        //Hero image added
         willhero.getObjectImg().setFitHeight(25);
         willhero.getObjectImg().setFitWidth(25);
         willhero.getObjectImg().setX(300);
@@ -369,63 +549,63 @@ public class GameController implements Initializable {
 
 
         willhero.setHelmet(helmet);
-            TranslateTransition translateTransition = new TranslateTransition();
-            translateTransition.setNode(willhero.getObjectImg());
-            translateTransition.setAutoReverse(true);
-            translateTransition.setDuration(Duration.millis(1500));
-            translateTransition.setByY(-60);
-            translateTransition.setRate(3);
-            translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-            translateTransition.play();
-            Line fallLine = new Line(5.0f, 2.5f, 320.0f, 2.5f);
-            fallLine.setOpacity(0.0);
-            fallLine.setTranslateX(275);
-            fallLine.setTranslateY(248);
-            g1.getChildren().add(fallLine);
-            Line rescrnline = new Line(5.0f, 2.5f, 320.0f, 2.5f);
-            rescrnline.setOpacity(0.0);
-            rescrnline.setTranslateX(275);
-            rescrnline.setTranslateY(482);
-            g1.getChildren().add(rescrnline);
+        TranslateTransition translateTransition = new TranslateTransition();
+        translateTransition.setNode(willhero.getObjectImg());
+        translateTransition.setAutoReverse(true);
+        translateTransition.setDuration(Duration.millis(1500));
+        translateTransition.setByY(-60);
+        translateTransition.setRate(3);
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        translateTransition.play();
+        Line fallLine = new Line(5.0f, 2.5f, 320.0f, 2.5f);
+        fallLine.setOpacity(0.0);
+        fallLine.setTranslateX(275);
+        fallLine.setTranslateY(248);
+        g1.getChildren().add(fallLine);
+        Line rescrnline = new Line(5.0f, 2.5f, 320.0f, 2.5f);
+        rescrnline.setOpacity(0.0);
+        rescrnline.setTranslateX(275);
+        rescrnline.setTranslateY(482);
+        g1.getChildren().add(rescrnline);
 
-        resurrectb.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(resurrectflag && willhero.getCoins()>=15){
-                    resurrectflag=false;
-                    willhero.increasecoins(-15);
-                    cointext.setText("Coins :"+willhero.getCoins());
-                    willhero.getObjectImg().setY(-25);
-                    willhero.getLocation1().setHas_platform(true);
-                Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
-                ImageView islandImg = new ImageView(island);
-                islandImg.setFitHeight(100);
-                islandImg.setFitWidth(200);
-                islandImg.setX((willhero.getLocation1().getNumber()) * 200);
-                islandImg.setY(250);
-                islandImg.setPreserveRatio(true);
-                islandImg.setSmooth(true);
-                islandImg.setCache(true);
-                g.getChildren().add(islandImg);
-                TranslateTransition fall1=new TranslateTransition();
-                fall1.setNode(willhero.getObjectImg());
-                fall1.setDuration(Duration.millis(800));
-                fall1.setByY(-250);
-                fall1.setCycleCount(1);
-                fall1.play();
+            resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if(resurrectflag && willhero.getCoins()>=15){
+                        resurrectflag=false;
+                        willhero.increasecoins(-15);
+                        cointext.setText("Coins :"+willhero.getCoins());
+                        willhero.getObjectImg().setY(-25);
+                        willhero.getLocation1().setHas_platform(true);
+                        Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
+                        ImageView islandImg = new ImageView(island);
+                        islandImg.setFitHeight(100);
+                        islandImg.setFitWidth(200);
+                        islandImg.setX((willhero.getLocation1().getNumber()) * 200);
+                        islandImg.setY(250);
+                        islandImg.setPreserveRatio(true);
+                        islandImg.setSmooth(true);
+                        islandImg.setCache(true);
+                        g.getChildren().add(islandImg);
+                        TranslateTransition fall1=new TranslateTransition();
+                        fall1.setNode(willhero.getObjectImg());
+                        fall1.setDuration(Duration.millis(800));
+                        fall1.setByY(-250);
+                        fall1.setCycleCount(1);
+                        fall1.play();
 
-                TranslateTransition translateTransition = new TranslateTransition();
-                translateTransition.setNode(willhero.getObjectImg());
-                translateTransition.setAutoReverse(true);
-                translateTransition.setDuration(Duration.millis(1500));
-                translateTransition.setByY(-60);
-                translateTransition.setRate(3);
-                translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-                translateTransition.play();
-                reliveStage.close();}
+                        TranslateTransition translateTransition = new TranslateTransition();
+                        translateTransition.setNode(willhero.getObjectImg());
+                        translateTransition.setAutoReverse(true);
+                        translateTransition.setDuration(Duration.millis(1500));
+                        translateTransition.setByY(-60);
+                        translateTransition.setRate(3);
+                        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+                        translateTransition.play();
+                        reliveStage.close();}
 
-            }
-        });
+                }
+            });
         willhero.getObjectImg().translateYProperty().addListener((obs, old, newValue) -> {
             if(flagfall && (!willhero.getLocation1().isHas_platform() && !willhero.getLocation1().isHas_falling_platform()) && willhero.getObjectImg().getBoundsInParent().intersects(fallLine.getBoundsInParent())){
                 flagfall=false;
@@ -485,23 +665,9 @@ public class GameController implements Initializable {
             }
             if(flagchestintersect && willhero.getLocation1().isHas_chest()){
                 if(willhero.getObjectImg().getBoundsInParent().getMaxY()>200 && willhero.getObjectImg().getBoundsInParent().getMinY()<226){
-                    if(willhero.getLocation1().getChest().getType()=="Coin"){
-                    willhero.increasecoins(10);
-                    cointext.setText("Coins: "+willhero.getCoins());
-                    willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
-                    Image chest1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestOpen.jpg");
-                    ImageView Imgchest1 = new ImageView(chest1);
-                    Imgchest1.setFitWidth(40);
-                    Imgchest1.setFitHeight(50);
-                    Imgchest1.setX((willhero.getLocation1().getNumber()) * 200 + 100);
-                    Imgchest1.setY(225);
-                    Imgchest1.setPreserveRatio(true);
-                    Imgchest1.setSmooth(true);
-                    Imgchest1.setCache(true);
-                    g.getChildren().add(Imgchest1);
-                    flagchestintersect=false;}
-                    if(willhero.getLocation1().getChest().getType()=="Weapon"){
-
+                    if(willhero.getLocation1().getChest().getType().equals("Coin")){
+                        willhero.increasecoins(10);
+                        cointext.setText("Coins: "+willhero.getCoins());
                         willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
                         Image chest1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestOpen.jpg");
                         ImageView Imgchest1 = new ImageView(chest1);
@@ -514,6 +680,37 @@ public class GameController implements Initializable {
                         Imgchest1.setCache(true);
                         g.getChildren().add(Imgchest1);
                         flagchestintersect=false;
+                    }
+                    if(willhero.getLocation1().getChest().getType().equals("Weapon")){
+                        willhero.getLocation1().getChest().getObjectImg().setOpacity(0.0);
+                        Image chest1 = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\ChestOpen.jpg");
+                        ImageView Imgchest1 = new ImageView(chest1);
+                        Imgchest1.setFitWidth(40);
+                        Imgchest1.setFitHeight(50);
+                        Imgchest1.setX((willhero.getLocation1().getNumber()) * 200 + 100);
+                        Imgchest1.setY(225);
+                        Imgchest1.setPreserveRatio(true);
+                        Imgchest1.setSmooth(true);
+                        Imgchest1.setCache(true);
+                        g.getChildren().add(Imgchest1);
+                        flagchestintersect=false;
+                        Weapon_Chest chestem= (Weapon_Chest) willhero.getLocation1().getChest();
+                        String typeches=chestem.getWeapon().getWname();
+                        if (typeches.equals("Knife")){
+                            willhero.setWeapon_flag(2);
+                            willhero.getHelmet().setKnife(chestem.getWeapon());
+                            if(willhero.getHelmet().getKnife().getLevel()==1){
+                                willhero.getHelmet().getKnife().setLevel(2);
+
+                            }
+                        }
+                        else{
+                            willhero.setWeapon_flag(1);
+                            willhero.getHelmet().setSword(chestem.getWeapon());
+                            if(willhero.getHelmet().getSword().getLevel()==1){
+                                willhero.getHelmet().getSword().setLevel(2);
+                            }
+                        }
                     }
                 }
             }
@@ -530,18 +727,21 @@ public class GameController implements Initializable {
             }
             if(sidecol==true){
                 System.out.println("sidecollision");
+                cointext.setText("Coins: "+willhero.getCoins());
                 sidecol=false;
             }
             if(downcol==true){
                 System.out.println("downcollision");
+                cointext.setText("Coins: "+willhero.getCoins());
                 downcol=false;
             }
             if(upcol==true){
                 System.out.println("upcollision");
+                cointext.setText("Coins: "+willhero.getCoins());
                 upcol=false;
             }
         });
-            g1.getChildren().add(willhero.getObjectImg());
+        g1.getChildren().add(willhero.getObjectImg());
         // Normal with island1 image Platforms
         for (int i = 0; i < 81;) {   // Creating Islands...
             Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
@@ -595,7 +795,7 @@ public class GameController implements Initializable {
             islandImg1.setSmooth(true);
             islandImg1.setCache(true);
             g.getChildren().add(islandImg1);
-           // hasPlatform[i+1] = 1;
+            // hasPlatform[i+1] = 1;
             Location islandloc1 = new Location(i+1,true);
             locList[i+1] = islandloc1;
             if(flag==0){
@@ -619,6 +819,7 @@ public class GameController implements Initializable {
                 g.getChildren().add(orcImg1);
 
                 Red_Orc red_orc = new Red_Orc(locList[i+1],orcImg1);
+                red_orc.setTt(translateOrc); // Changed
                 locList[i+1].setHas_orc(true);
                 locList[i+1].setOrc(red_orc);
             }
@@ -704,7 +905,7 @@ public class GameController implements Initializable {
 //                        willhero.setWeapon_flag(1);
                     }
                     else{
-                        ThrowingKnife knife = new ThrowingKnife();
+                        knife knife = new knife();
                         Weapon_Chest wc = new Weapon_Chest(locList[i+1],Imgchest1,knife);
                         locList[i+1].setHas_chest(true);
                         locList[i+1].setChest(wc);
@@ -788,8 +989,9 @@ public class GameController implements Initializable {
                 translateOrc.setCycleCount(TranslateTransition.INDEFINITE);
                 translateOrc.play();
                 g.getChildren().add(orcImg1);
-                ///From here
+
                 Red_Orc red_orc = new Red_Orc(locList[i+1],orcImg1);
+                red_orc.setTt(translateOrc);
                 locList[i+1].setHas_orc(true);
                 locList[i+1].setOrc(red_orc);
             }
@@ -840,6 +1042,7 @@ public class GameController implements Initializable {
                 g.getChildren().add(orcImg1);
 
                 Green_Orc greenOrc = new Green_Orc(locList[i+1],orcImg1);
+                greenOrc.setTt(translateOrc);   //Changed
                 locList[i+1].setHas_orc(true);
                 locList[i+1].setOrc(greenOrc);
             }
@@ -1071,3 +1274,95 @@ public class GameController implements Initializable {
         gameScreenFixed1.getChildren().add(g1);
     }
 }
+
+//Button w1 = new Button("Sword");
+//Button w2 = new Button("Knife");
+//w1.setLayoutX();
+//w1.setLayoutY();
+//Image sword = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\_______.jpg");
+//ImageView swordimg = new ImageView(sword);
+//w1.setMinHeight();
+//w1.setMinWidth();
+//w1.setFitHeight();
+//w1.setFitWidth();
+//g1.getChildren().add(w1);
+
+//w2.setLayoutX();
+//Button ingamemenub = new Button();
+//  Image menuimg = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\settings.jpg");
+//ImageView inmenu = new ImageView(menuimg);
+//  ingamemenub.setGraphic(inmenu);
+//        ingamemenub.setLayoutX(790);
+//      ingamemenub.setLayoutY(30);
+//    ingamemenub.setMinHeight(50);
+//  ingamemenub.setMinWidth(50);
+//inmenu.setFitHeight(50);
+//inmenu.setFitWidth(60);
+//g1.getChildren().add(ingamemenub);
+
+//
+/*
+    Button resurrectb = new Button("Resurrect");
+    resurrectb.setLayoutX(190);
+    resurrectb.setLayoutY(40);
+    resurrectb.setBorder(new Border(new BorderStroke(Color.LIGHTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4))));
+    Button exitb = new Button("Exit");
+    Stage reliveStage = new Stage();
+
+    exitb.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent actionEvent) {
+        reliveStage.close();
+        gameScreenFixed1.setVisible(false);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("page1.fxml"));
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1,900,490));
+            stage.getIcons().add(new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\icon.jpg"));
+            stage.show();
+        }
+         catch(Exception e) {
+            e.printStackTrace();
+            }
+         }
+    });
+    resurrectb.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(resurrectflag && willhero.getCoins()>=15){
+                    resurrectflag=false;
+                    willhero.increasecoins(-15);
+                    cointext.setText("Coins :"+willhero.getCoins());
+                    willhero.getObjectImg().setY(-25);
+                    willhero.getLocation1().setHas_platform(true);
+                    Image island = new Image("C:\\Users\\ishaan\\IdeaProjects\\Group_20\\src\\GameAssets\\islands1.jpg");
+                    ImageView islandImg = new ImageView(island);
+                    islandImg.setFitHeight(100);
+                    islandImg.setFitWidth(200);
+                    islandImg.setX((willhero.getLocation1().getNumber()) * 200);
+                    islandImg.setY(250);
+                    islandImg.setPreserveRatio(true);
+                    islandImg.setSmooth(true);
+                    islandImg.setCache(true);
+                    g.getChildren().add(islandImg);
+                    TranslateTransition fall1=new TranslateTransition();
+                    fall1.setNode(willhero.getObjectImg());
+                    fall1.setDuration(Duration.millis(800));
+                    fall1.setByY(-250);
+                    fall1.setCycleCount(1);
+                    fall1.play();
+
+                    TranslateTransition translateTransition = new TranslateTransition();
+                    translateTransition.setNode(willhero.getObjectImg());
+                    translateTransition.setAutoReverse(true);
+                    translateTransition.setDuration(Duration.millis(1500));
+                    translateTransition.setByY(-60);
+                    translateTransition.setRate(3);
+                    translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+                    translateTransition.play();
+                    reliveStage.close();}
+
+            }
+        });
+*/

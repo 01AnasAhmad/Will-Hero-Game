@@ -11,7 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Objects;
 
 public class Controller {
@@ -44,16 +47,31 @@ public class Controller {
     }
     @FXML
     void load_screen(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game1.fxml"));
-            Parent root1 = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1,900,490));
-            stage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game1.fxml"));
+                Parent root1 = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1,900,490));
+                stage.show();
+                ObjectInputStream in = null;
+                try {
+                    in = new ObjectInputStream(new FileInputStream("out.txt"));
+                    Hero h1 = (Hero)in.readObject();
+                    System.out.println(h1.getLocation1().getNumber());
+                    System.out.println(h1.getCoins());
+
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());}
+                finally {
+                    assert in != null;
+                    in.close();
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
 
     @FXML
     public void ExitApplication(ActionEvent e) throws IOException{
